@@ -2,6 +2,9 @@
     x:Class="jinritoutiao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:jinritoutiao">
-
+    xmlns:local="using:jinritoutiao"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <SolidColorBrush Color="#FF4646" x:Name="AppSolidColorBrush"></SolidColorBrush>
+    </Application.Resources>
 </Application>

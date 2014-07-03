@@ -1,0 +1,120 @@
+﻿<UserControl
+    x:Class="jinritoutiao.HeaderControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:jinritoutiao"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="120"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <Storyboard x:Name="RefreshImageStoryboard">
+            <DoubleAnimation Duration="0:0:0.8"
+                             Storyboard.TargetName="RefreshProjection"
+                             Storyboard.TargetProperty="RotationZ" From="360" To="0" />
+        
+            
+         </Storyboard>
+
+        <Storyboard x:Name="LoadStoryboard"  x:FieldModifier="public">
+            <DoubleAnimation Duration="0:0:0.8"
+                             Storyboard.TargetName="LoadPlaneProjection"
+                             Storyboard.TargetProperty="LocalOffsetY" From="-60" To="0" />
+
+
+        </Storyboard>
+        <Style x:Name="ListItemTextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource AppSolidColorBrush}" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Image Height="30"
+                   Width="150"
+                   Source="Assets/images/title.png" 
+                   Stretch="Fill"></Image>
+                <Image Height="25" Margin="15"
+                   Source="Assets/images/refresh.png" 
+                   Stretch="Fill" Name="RefreshImage"
+                   Tapped="RefreshImage_OnTapped"
+                   >
+                    <Image.Projection>
+                        <PlaneProjection x:Name="RefreshProjection"/>
+                    </Image.Projection>
+                </Image>
+            </StackPanel>
+
+            <Image Grid.Column="2"
+                Source="Assets/images/search_icon.png" Margin="0,8"></Image>
+        </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" Grid.Row="1" Background="White">
+            <ListBox Background="White" Margin="10 5">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        推荐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        热点
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        社会
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Style="{StaticResource ListItemTextBlock}">
+                        娱乐
+                    </TextBlock>
+                </ListBoxItem>
+            </ListBox>
+        </ScrollViewer>
+
+        <Grid.Projection>
+            <PlaneProjection LocalOffsetY="-60" x:Name="LoadPlaneProjection"></PlaneProjection>
+        </Grid.Projection>
+    </Grid>
+</UserControl>
