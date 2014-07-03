@@ -59,7 +59,7 @@
                 Source="Assets/images/search_icon.png" Margin="0,8"></Image>
         </Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Visible" Grid.Row="1" Background="White">
-            <ListBox Background="White" Margin="10 5">
+            <ListBox Background="White" Margin="10 5" Name="MenuListBox">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"></StackPanel>
