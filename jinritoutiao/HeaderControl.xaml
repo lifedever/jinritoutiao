@@ -21,9 +21,9 @@
          </Storyboard>
 
         <Storyboard x:Name="LoadStoryboard"  x:FieldModifier="public">
-        	<DoubleAnimation Duration="0:0:0.8"
+        	<DoubleAnimation Duration="0:0:1"
         		Storyboard.TargetName="LoadPlaneProjection"
-        		Storyboard.TargetProperty="LocalOffsetY" From="-60" To="0" />
+        		Storyboard.TargetProperty="LocalOffsetY" From="-120" To="0" />
 
 
         </Storyboard>
@@ -152,7 +152,7 @@
 		</Grid.RowDefinitions>
 
 		<Grid.Projection>
-			<PlaneProjection LocalOffsetY="-60" x:Name="LoadPlaneProjection"/>
+			<PlaneProjection LocalOffsetY="-120" x:Name="LoadPlaneProjection"/>
 		</Grid.Projection>
 		<Grid Grid.Row="0" Background="{StaticResource AppSolidColorBrush}" VerticalAlignment="Top">
 			<Grid.ColumnDefinitions>
