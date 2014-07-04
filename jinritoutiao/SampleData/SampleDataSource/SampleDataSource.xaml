@@ -1,0 +1,25 @@
+﻿<!--
+      *********    请勿修改此文件     *********
+      此文件由设计工具再生成。更改
+      此文件可能会导致错误。
+-->
+<sampleData:SampleDataSource xmlns:sampleData="using:Blend.SampleData.SampleDataSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <sampleData:SampleDataSource.HeaderMenus>
+    <sampleData:HeaderMenusItem Title="推荐" />
+    <sampleData:HeaderMenusItem Title="热点" />
+    <sampleData:HeaderMenusItem Title="社会" />
+    <sampleData:HeaderMenusItem Title="娱乐" />
+    <sampleData:HeaderMenusItem Title="财经" />
+    <sampleData:HeaderMenusItem Title="军事" />
+    <sampleData:HeaderMenusItem Title="科技" />
+    <sampleData:HeaderMenusItem Title="国际" />
+    <sampleData:HeaderMenusItem Title="体育" />
+    <sampleData:HeaderMenusItem Title="汽车" />
+    <sampleData:HeaderMenusItem Title="旅游" />
+    <sampleData:HeaderMenusItem Title="养生" />
+    <sampleData:HeaderMenusItem Title="历史" />
+    <sampleData:HeaderMenusItem Title="探索" />
+    <sampleData:HeaderMenusItem Title="故事" />
+    <sampleData:HeaderMenusItem Title="美文" />
+  </sampleData:SampleDataSource.HeaderMenus>
+</sampleData:SampleDataSource>

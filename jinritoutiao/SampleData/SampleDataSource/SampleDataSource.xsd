@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+      *********    请勿修改此文件     *********
+      此文件由设计工具再生成。更改
+      此文件可能会导致错误。
+-->
+<xs:schema xmlns:blend="http://schemas.microsoft.com/expression/blend/2008" xmlns:tns="Blend.SampleData.SampleDataSource" targetNamespace="Blend.SampleData.SampleDataSource" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="SampleDataSource" type="tns:SampleDataSource" />
+  <xs:complexType name="SampleDataSource">
+    <xs:sequence>
+      <xs:element name="HeaderMenus" type="tns:HeaderMenus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HeaderMenus">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="HeaderMenusItem" type="tns:HeaderMenusItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HeaderMenusItem">
+    <xs:attribute blend:Format="Lorem ipsum" blend:FormatParameters="4,8" name="Title" type="xs:string" />
+  </xs:complexType>
+</xs:schema>
