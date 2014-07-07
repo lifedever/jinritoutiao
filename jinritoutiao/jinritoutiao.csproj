@@ -86,11 +86,16 @@
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="Core\HeaderMenu.cs" />
+    <Compile Include="Core\DataTemplate\CustomItemTemplateSelector.cs" />
+    <Compile Include="Core\DataTemplate\DataTemplateSelector.cs" />
+    <Compile Include="Core\HtmlHelper.cs" />
+    <Compile Include="Core\HtmlParseHelper.cs" />
+    <Compile Include="Core\Model\HeaderMenu.cs" />
+    <Compile Include="Core\Model\MiddleImage.cs" />
     <Compile Include="Core\SampleData.cs" />
-    <Compile Include="Core\Next.cs" />
-    <Compile Include="Core\ReceiveData.cs" />
-    <Compile Include="Core\ReceiveResult.cs" />
+    <Compile Include="Core\Model\Next.cs" />
+    <Compile Include="Core\Model\ReceiveData.cs" />
+    <Compile Include="Core\Model\ReceiveResult.cs" />
     <Compile Include="Core\ToutiaoHelper.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>
@@ -158,11 +163,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -16,6 +18,8 @@ using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=391641 上有介绍
 using jinritoutiao.Common;
+using jinritoutiao.Core;
+using jinritoutiao.Core.Model;
 
 namespace jinritoutiao
 {
@@ -24,21 +28,60 @@ namespace jinritoutiao
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly NavigationHelper navigationHelper;
+        private readonly NavigationHelper _navigationHelper;
+        private ListBox _headMenuListBox;
+        public HtmlParseHelper HtmlParseHelper { get; set; }
+
+        public ObservableCollection<ReceiveData> ReceiveDatas { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
+            this._navigationHelper = new NavigationHelper(this);
+            _navigationHelper.LoadState += navigationHelper_LoadState;
+
+            InitStatusBar();
+            InitHeaderMenu();
+
+        }
+
+        #region 初始化信息
+        /// <summary>
+        /// 初始化菜单对象
+        /// </summary>
+        private void InitHeaderMenu()
+        {
+            _headMenuListBox = MyHeaderControl.MenuListBox;
+            _headMenuListBox.SelectionChanged += HeadMenuListBox_SelectionChanged;
+            _headMenuListBox.SelectedIndex = 0;
+        }
+
+        void HeadMenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = _headMenuListBox.SelectedItem as HeaderMenu;
+            if (item != null)
+            {
+                HtmlParseHelper = new HtmlParseHelper();
+                HtmlParseHelper.HttpGet(ToutiaoHelper.GetArticleUrl(item.Name, null, null));
+            }
+        }
+
+        /// <summary>
+        /// 初始化状态栏
+        /// </summary>
+        private void InitStatusBar()
+        {
             StatusBar statusBar = StatusBar.GetForCurrentView();
             statusBar.HideAsync();
-            this.NavigationCacheMode = NavigationCacheMode.Required;
-
-            this.navigationHelper = new NavigationHelper(this);
-            navigationHelper.LoadState += navigationHelper_LoadState;
         }
+
+        #endregion
 
         void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             MyHeaderControl.LoadStoryboard.Begin();
+            
+            
         }
 
         #region NavigationHelper 注册
@@ -58,12 +101,12 @@ namespace jinritoutiao
         /// 无法取消导航请求的事件处理程序。</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            this._navigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            this._navigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion

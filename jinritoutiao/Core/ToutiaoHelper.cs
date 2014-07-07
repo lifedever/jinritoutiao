@@ -4,15 +4,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using jinritoutiao.Core.Model;
 
 namespace jinritoutiao.Core
 {
     /// <summary>
     /// 项目工具类
     /// </summary>
-    class ToutiaoHelper
+    public sealed class ToutiaoHelper
     {
-        private const string ArticleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&max_behot_time={1}&min_behot_time={2}";
+        private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20";
 
         /// <summary>
         /// 获取文章url
@@ -23,7 +24,12 @@ namespace jinritoutiao.Core
         /// <returns></returns>
         public static string GetArticleUrl(string category, string maxBehotTime, string minBehotTime)
         {
-            return string.Format(ArticleUrl, category, maxBehotTime, minBehotTime);
+            if (!string.IsNullOrEmpty(maxBehotTime) && !string.IsNullOrEmpty(maxBehotTime))
+            {
+                _articleUrl += string.Format("&max_behot_time={0}&min_behot_time={1}", maxBehotTime, minBehotTime);
+            }
+
+            return string.Format(_articleUrl, category);
         }
 
         /// <summary>

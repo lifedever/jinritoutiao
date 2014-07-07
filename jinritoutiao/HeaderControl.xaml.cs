@@ -18,20 +18,22 @@ using Windows.UI.Xaml.Navigation;
 
 // “用户控件”项模板在 http://go.microsoft.com/fwlink/?LinkId=234236 上提供
 using jinritoutiao.Core;
+using jinritoutiao.Core.Model;
 
 namespace jinritoutiao
 {
     public sealed partial class HeaderControl : UserControl
     {
         public ObservableCollection<HeaderMenu> HeaderMenus { get; set; }
-
+        public double Height { get; set; }
         public HeaderControl()
         {
             this.InitializeComponent();
             HeaderMenus = ToutiaoHelper.GetHeaderMenus();
 
+            this.DataContext = this;
             MenuListBox.DataContext = this;
-
+            Height = 100;
         }
 
 

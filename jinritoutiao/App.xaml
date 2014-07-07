@@ -5,6 +5,6 @@
     xmlns:local="using:jinritoutiao"
     RequestedTheme="Light">
     <Application.Resources>
-        <SolidColorBrush Color="#FF4646" x:Name="AppSolidColorBrush"></SolidColorBrush>
+        <SolidColorBrush Color="#A50000" x:Name="AppSolidColorBrush"></SolidColorBrush>
     </Application.Resources>
 </Application>

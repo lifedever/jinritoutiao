@@ -5,16 +5,130 @@
     xmlns:local="using:jinritoutiao"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:core="using:jinritoutiao.Core.dataTemplate"
     mc:Ignorable="d"
-    
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="SubTextStyle">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TitleTextStyle">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="135"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <local:HeaderControl Grid.Row="0" x:Name="MyHeaderControl" />
+        <local:HeaderControl Opacity="0.8" Grid.Row="0" x:Name="MyHeaderControl" Height="120"/>
+        <Grid Grid.Row="1">
+            <ListView Name="DataListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <core:CustomItemTemplateSelector Content="{Binding}">
+                            <!-- 无图片列表显示格式 -->
+                            <core:CustomItemTemplateSelector.NoImageDataTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}">
+                                            新谍照酷似荣耀6，小米新品名为米6的尴尬与无奈
+                                        </TextBlock>
+
+                                        <Grid Grid.Row="1" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}">手机腾讯网</TextBlock>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Right"  Style="{StaticResource SubTextStyle}">刚刚</TextBlock>
+                                            <TextBlock Grid.Column="2" Style="{StaticResource SubTextStyle}">评论数：1000</TextBlock>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </core:CustomItemTemplateSelector.NoImageDataTemplate>
+
+                            <!-- 一张图片列表显示格式 -->
+                            <core:CustomItemTemplateSelector.OneImageDataTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="150"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Margin="10" Grid.Column="0" Style="{StaticResource TitleTextStyle}">
+                                            新谍照酷似荣耀6，小米新品名为米6的尴尬与无奈
+                                        </TextBlock>
+                                        <Image Grid.Row="0" Grid.Column="1" Margin="10"
+                                               Source="http://p2.pstatp.com/large/1050/7105759697"></Image>
+                                        
+                                        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}">手机腾讯网</TextBlock>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Right"  Style="{StaticResource SubTextStyle}">刚刚</TextBlock>
+                                            <TextBlock Grid.Column="2" Style="{StaticResource SubTextStyle}">评论数：1000</TextBlock>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </core:CustomItemTemplateSelector.OneImageDataTemplate>
+                            
+                            <!-- 多张图片列表显示格式 -->
+                            <core:CustomItemTemplateSelector.MultiImageDataTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}">
+                                            新谍照酷似荣耀6，小米新品名为米6的尴尬与无奈
+                                        </TextBlock>
+
+                                        <Grid Grid.Row="1" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}">手机腾讯网</TextBlock>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}">刚刚</TextBlock>
+                                            <TextBlock Grid.Column="2" Style="{StaticResource SubTextStyle}">评论数：1000</TextBlock>
+                                        </Grid>
+
+                                        <Grid Grid.Row="2" Height="120">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" Margin="5" Stretch="Fill" Source="http://liaoning.sinaimg.cn/2014/0707/U7031P1195DT20140707074033.png"></Image>
+                                            <Image Grid.Column="1" Margin="5" Stretch="Fill" Source="http://liaoning.sinaimg.cn/2014/0707/U7031P1195DT20140707074033.png"></Image>
+                                            <Image Grid.Column="2" Margin="5" Stretch="Fill" Source="http://liaoning.sinaimg.cn/2014/0707/U7031P1195DT20140707074033.png"></Image>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </core:CustomItemTemplateSelector.MultiImageDataTemplate>
+                        </core:CustomItemTemplateSelector>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </Page>

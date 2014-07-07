@@ -8,8 +8,9 @@
     xmlns:sampleData="using:Blend.SampleData.SampleDataSource"
     x:Class="jinritoutiao.HeaderControl"
     mc:Ignorable="d"
-    d:DesignHeight="120"
-    d:DesignWidth="400">
+    d:DesignHeight="135"
+    d:DesignWidth="400"
+    Height="{Binding Height}">
     <UserControl.Resources>
     	<sampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
         <Storyboard x:Name="RefreshImageStoryboard">
@@ -148,8 +149,9 @@
 	<Grid DataContext="{Binding Source={StaticResource SampleDataSource}}">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
 		<Grid.Projection>
 			<PlaneProjection LocalOffsetY="-120" x:Name="LoadPlaneProjection"/>
@@ -181,12 +183,13 @@
 		</Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Visible" 
 			Grid.Row="1" 
-			BorderThickness="0 0 0 0.5" BorderBrush="DimGray"
+			BorderThickness="0 0 0 0.5" BorderBrush="DarkGray"
 			Background="White">
             
 			<ListBox Background="White" 
 				ItemsSource="{Binding HeaderMenus}" 
 				x:Name="MenuListBox" 
+                x:FieldModifier="public"
 				ItemContainerStyle="{StaticResource MenuListBoxItemStyle}" ItemTemplate="{StaticResource CollectionItemTemplate}">
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -196,6 +199,8 @@
                 
 			</ListBox>
 		</ScrollViewer>
-
+        <Border Grid.Row="2" Background="White" BorderBrush="DimGray" BorderThickness="0 0 0 0.5">
+            <TextBlock Margin="10 3" FontSize="12">2014.07.07 星期日</TextBlock>
+        </Border>
 	</Grid>
 </UserControl>
