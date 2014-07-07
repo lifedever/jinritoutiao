@@ -13,7 +13,7 @@ namespace jinritoutiao.Core
     /// </summary>
     public sealed class ToutiaoHelper
     {
-        private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20";
+        private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&utm_source=toutiao";
 
         /// <summary>
         /// 获取文章url
@@ -24,12 +24,13 @@ namespace jinritoutiao.Core
         /// <returns></returns>
         public static string GetArticleUrl(string category, string maxBehotTime, string minBehotTime)
         {
+            string url = _articleUrl;
             if (!string.IsNullOrEmpty(maxBehotTime) && !string.IsNullOrEmpty(maxBehotTime))
             {
-                _articleUrl += string.Format("&max_behot_time={0}&min_behot_time={1}", maxBehotTime, minBehotTime);
+                url += string.Format("&max_behot_time={0}&min_behot_time={1}", maxBehotTime, minBehotTime);
             }
 
-            return string.Format(_articleUrl, category);
+            return string.Format(url, category);
         }
 
         /// <summary>

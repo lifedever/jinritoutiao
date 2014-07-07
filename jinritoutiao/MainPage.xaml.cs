@@ -40,9 +40,11 @@ namespace jinritoutiao
             this._navigationHelper = new NavigationHelper(this);
             _navigationHelper.LoadState += navigationHelper_LoadState;
 
+            ReceiveDatas = new ObservableCollection<ReceiveData>();
+            DataListView.DataContext = this;
+            
             InitStatusBar();
             InitHeaderMenu();
-
         }
 
         #region 初始化信息
@@ -61,8 +63,11 @@ namespace jinritoutiao
             var item = _headMenuListBox.SelectedItem as HeaderMenu;
             if (item != null)
             {
-                HtmlParseHelper = new HtmlParseHelper();
-                HtmlParseHelper.HttpGet(ToutiaoHelper.GetArticleUrl(item.Name, null, null));
+                ReceiveDatas.Clear();
+                HtmlParseHelper = new HtmlParseHelper(ReceiveDatas);
+                string url = ToutiaoHelper.GetArticleUrl(item.Name, null, null);
+                Debug.WriteLine(url);
+                HtmlParseHelper.HttpGet(url);
             }
         }
 

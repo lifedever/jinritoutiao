@@ -31,6 +31,7 @@ namespace jinritoutiao.Core.Model
         private int _isBury;
         private long _groupId;
         private int _imageCount = 0;
+        private string[] _imageList;
         private MiddleImage _middleImage;
 
         public string Abstract
@@ -200,6 +201,12 @@ namespace jinritoutiao.Core.Model
         {
             get { return _createTime; }
             set { _createTime = value; }
+        }
+
+        public string[] ImageList
+        {
+            get { return _imageList; }
+            set { _imageList = value; }
         }
     }
 }
