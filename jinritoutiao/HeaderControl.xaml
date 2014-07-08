@@ -164,15 +164,15 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<Image Height="30"
-					Width="150"
-					Source="Assets/images/title.png" 
-					Stretch="Fill"/>
-				<Image Height="25" Margin="15"
-					Source="Assets/images/refresh.png" 
-					Stretch="Fill" x:Name="RefreshImage"
-					Tapped="RefreshImage_OnTapped"
-                   >
-					<Image.Projection>
+					    Width="150"
+					    Source="Assets/images/title.png" 
+					    Stretch="Fill"/>
+                <Image Height="25" Margin="15"
+					   Source="Assets/images/refresh.png" 
+					   Stretch="Fill" x:Name="RefreshImage"
+					   Tapped="RefreshImage_OnTapped"
+                       >
+                    <Image.Projection>
 						<PlaneProjection x:Name="RefreshProjection"/>
 					</Image.Projection>
 				</Image>
@@ -200,7 +200,7 @@
 			</ListBox>
 		</ScrollViewer>
         <Border Grid.Row="2" Background="White" BorderBrush="DimGray" BorderThickness="0 0 0 0.5">
-            <TextBlock Margin="10 3" FontSize="12">2014.07.07 星期日</TextBlock>
+            <TextBlock Name="DatetimeTextBlock" Margin="10 3" FontSize="12" Text="{Binding CurrentTime}"></TextBlock>
         </Border>
 	</Grid>
 </UserControl>

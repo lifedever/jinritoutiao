@@ -90,6 +90,7 @@
     <Compile Include="Core\DataTemplate\DataTemplateSelector.cs" />
     <Compile Include="Core\HtmlHelper.cs" />
     <Compile Include="Core\HtmlParseHelper.cs" />
+    <Compile Include="Core\ImageConvert.cs" />
     <Compile Include="Core\Model\HeaderMenu.cs" />
     <Compile Include="Core\Model\MiddleImage.cs" />
     <Compile Include="Core\SampleData.cs" />

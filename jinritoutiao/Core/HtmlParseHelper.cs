@@ -40,32 +40,55 @@ namespace jinritoutiao.Core
                 {
                     foreach (var itemValue in dataArray)
                     {
+                        var itemJson = itemValue.Stringify();
                         JsonObject itemObject = itemValue.GetObject();
+                        // 存在Image_list，可显示多个图片
+                        string[] imageArray = new string[3];
+                        int imageCount = 0;
+
+                        if (itemJson.Contains("image_url"))
+                        {
+                            imageArray[0] = itemObject["image_url"].GetString();
+                            imageCount = 1;
+                        }
+                        else if (itemJson.Contains("image_list"))
+                        {
+                            var images = itemObject["image_list"].GetArray();
+                            if (images.Count == 1)  //一张图片
+                            {
+                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                imageCount = 1;
+                            }
+                            else if (images.Count == 2)
+                            {
+                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                imageArray[1] = images[1].GetObject()["url"].GetString();
+                                imageCount = 2;
+                            }
+                            else if (images.Count == 3)
+                            {
+                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                imageArray[1] = images[1].GetObject()["url"].GetString();
+                                imageArray[2] = images[2].GetObject()["url"].GetString();
+                                imageCount = 3;
+                            }
+                        }
+
+
                         string title = itemObject["title"].GetString();
                         string sourceUrl = itemObject["source_url"].GetString();
-
-                        var images = new string[3];
-                        
-                        var imageList = itemObject["image_list"].GetArray();
-
-                        if(imageList.Count == 1)
-                        {
-                            images[0] = imageList[0].ToString();
-                            images[1] = imageList[1].ToString();
-                        }
-                        else if (imageList.Count >= 2)
-                        {
-                            images[0] = imageList[0].ToString();
-                            images[1] = imageList[1].ToString();
-                            images[2] = imageList[2].ToString();
-                        }
-                        
-
+                        string source = itemObject["source"].GetString();
+                        int commentsCount = (int) itemObject["comments_count"].GetNumber();
+                        string datetime = itemObject["datetime"].GetString();
                         ReceiveDatas.Add(new ReceiveData()
                         {
                             Title = title,
                             SourceUrl = sourceUrl,
-                            ImageList = images
+                            ImageList = imageArray,
+                            ImageCount = imageCount,
+                            Source = source,
+                            CommentsCount = commentsCount,
+                            Datetime = datetime
                         });
                     }
                 });

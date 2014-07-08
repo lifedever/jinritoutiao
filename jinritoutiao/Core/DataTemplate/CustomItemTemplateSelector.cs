@@ -14,8 +14,9 @@ namespace jinritoutiao.Core.dataTemplate
 
         public DataTemplate OneImageDataTemplate { get; set; }
 
-        public DataTemplate MultiImageDataTemplate { get; set; }
+        public DataTemplate TwoImageDataTemplate { get; set; }
 
+        public DataTemplate ThreeImageDataTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -30,9 +31,13 @@ namespace jinritoutiao.Core.dataTemplate
                 {
                     return OneImageDataTemplate;
                 }
-                else
+                else if(dataItem.ImageCount == 2)
                 {
-                    return MultiImageDataTemplate;
+                    return TwoImageDataTemplate;
+                }
+                else if (dataItem.ImageCount == 3)
+                {
+                    return ThreeImageDataTemplate;
                 }
             }
 

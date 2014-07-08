@@ -25,14 +25,16 @@ namespace jinritoutiao
     public sealed partial class HeaderControl : UserControl
     {
         public ObservableCollection<HeaderMenu> HeaderMenus { get; set; }
+        public string CurrentTime { get; set; }
         public double Height { get; set; }
         public HeaderControl()
         {
             this.InitializeComponent();
             HeaderMenus = ToutiaoHelper.GetHeaderMenus();
-
+            CurrentTime = DateTime.Now.ToString("yyyy.MM.dd dddd");
             this.DataContext = this;
             MenuListBox.DataContext = this;
+            DatetimeTextBlock.DataContext = this;
             Height = 100;
         }
 
