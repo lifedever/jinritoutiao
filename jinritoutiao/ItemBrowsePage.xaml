@@ -19,7 +19,7 @@
                 <TextBlock Margin="20 10 20 10" Foreground="White" FontSize="28" Name="TitleTextBlock"/>
             </ScrollViewer>
         </StackPanel>
-        <WebView Grid.Row="1" Name="ItemWebView" Margin="0,10,0,0" 
+        <WebView Grid.Row="1" Name="ItemWebView" Margin="0,10,0,0"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
                  NavigationStarting="ItemWebView_OnNavigationStarting"></WebView>
         <ProgressRing Grid.Row="1" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
