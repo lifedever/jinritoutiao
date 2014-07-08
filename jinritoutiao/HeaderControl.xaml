@@ -177,7 +177,7 @@
 				</Image>
 			</StackPanel>
 
-			<Image Grid.Column="2" Width="60" Name="SearchImage" x:FieldModifier="public"
+			<Image Grid.Column="2" Width="60" Visibility="Collapsed" Name="SearchImage" x:FieldModifier="public"
 				Source="Assets/images/search_icon.png" Margin="0,8"/>
         </Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Visible" 
