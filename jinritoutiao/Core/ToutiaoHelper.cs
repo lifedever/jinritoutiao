@@ -22,14 +22,18 @@ namespace jinritoutiao.Core
         /// <param name="maxBehotTime"></param>
         /// <param name="minBehotTime"></param>
         /// <returns></returns>
-        public static string GetArticleUrl(string category, string maxBehotTime, string minBehotTime)
+        public static string GetArticleUrl(string category, string maxBehotTime, string minBehotTime, string maxCreateTime)
         {
             string url = _articleUrl;
             if (!string.IsNullOrEmpty(maxBehotTime) && !string.IsNullOrEmpty(maxBehotTime))
             {
-                url += string.Format("&max_behot_time={0}&min_behot_time={1}", maxBehotTime, minBehotTime);
+                url += "&max_behot_time="+maxBehotTime+"&min_behot_time="+minBehotTime;
             }
-
+            if (!string.IsNullOrEmpty(maxCreateTime))
+            {
+                url += "&max_create_time="+maxCreateTime;
+            }
+            url += "_="+DateTime.Now.Ticks;
             return string.Format(url, category);
         }
 

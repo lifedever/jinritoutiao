@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Phone.UI.Input;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,9 +31,13 @@ namespace jinritoutiao
     {
         private readonly NavigationHelper _navigationHelper;
         private ListBox _headMenuListBox;
+        private HeaderMenu _headerMenu;
+
         public HtmlParseHelper HtmlParseHelper { get; set; }
 
         public ObservableCollection<ReceiveData> ReceiveDatas { get; set; }
+        public Next Next { get; set; }
+        
         public MainPage()
         {
             this.InitializeComponent();
@@ -41,10 +46,12 @@ namespace jinritoutiao
             _navigationHelper.LoadState += navigationHelper_LoadState;
 
             ReceiveDatas = new ObservableCollection<ReceiveData>();
+            Next = new Next();
             DataListView.DataContext = this;
             
             InitStatusBar();
             InitHeaderMenu();
+           
         }
 
         #region 初始化信息
@@ -56,19 +63,39 @@ namespace jinritoutiao
             _headMenuListBox = MyHeaderControl.MenuListBox;
             _headMenuListBox.SelectionChanged += HeadMenuListBox_SelectionChanged;
             _headMenuListBox.SelectedIndex = 0;
+
+            MyHeaderControl.LoadStoryboard.Begin();
         }
 
         void HeadMenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = _headMenuListBox.SelectedItem as HeaderMenu;
-            if (item != null)
+            _headerMenu = _headMenuListBox.SelectedItem as HeaderMenu;
+            if (_headerMenu != null)
             {
                 ReceiveDatas.Clear();
-                HtmlParseHelper = new HtmlParseHelper(ReceiveDatas);
-                string url = ToutiaoHelper.GetArticleUrl(item.Name, null, null);
-                Debug.WriteLine(url);
-                HtmlParseHelper.HttpGet(url);
+                Next.MinBehotTime = null;
+                Next.MaxBehotTime = null;
+                ReloadData();
             }
+        }
+
+        private void ReloadData()
+        {
+            MyHeaderControl.RefreshImageStoryboard.Begin();
+            ProgressBar.Visibility = Visibility.Visible;
+            FooterGrid.Visibility = Visibility.Collapsed;
+            HtmlParseHelper = new HtmlParseHelper(ReceiveDatas, Next, FooterGrid, ProgressBar);
+
+            string maxCreateTime = null;
+
+            if (ReceiveDatas.Count>0)
+            {
+                maxCreateTime = ReceiveDatas.LastOrDefault().CreateTime;
+            }
+
+            string url = ToutiaoHelper.GetArticleUrl(_headerMenu.Name, Next.MaxBehotTime, Next.MinBehotTime, maxCreateTime);
+            Debug.WriteLine(url);
+            HtmlParseHelper.HttpGet(url);
         }
 
         /// <summary>
@@ -84,7 +111,6 @@ namespace jinritoutiao
 
         void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            MyHeaderControl.LoadStoryboard.Begin();
             
             
         }
@@ -107,13 +133,62 @@ namespace jinritoutiao
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedTo(e);
+            DataListView.SelectedItem = null;
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
-
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            e.Handled = true;
+            if (Frame.CanGoBack)
+                Frame.GoBack();
+            else
+                Application.Current.Exit();
+        }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedFrom(e);
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
         }
 
         #endregion
+
+        
+      
+        /// <summary>
+        /// 点击列表时触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = DataListView.SelectedItem as ReceiveData;
+            if (item == null)
+            {
+                return;
+            }
+            Frame.Navigate(typeof(ItemBrowsePage), item);
+        }
+
+        private void DataListView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            ReloadData();
+        }
+
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            MyHeaderControl.RefreshImage.Tapped += RefreshImage_Tapped;
+        }
+
+        void RefreshImage_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ReceiveDatas.Clear();
+            Next.MinBehotTime = null;
+            Next.MaxBehotTime = null;
+            ReloadData();
+        }
     }
 }

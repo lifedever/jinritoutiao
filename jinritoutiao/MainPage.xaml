@@ -8,11 +8,12 @@
     xmlns:template="using:jinritoutiao.Core.dataTemplate"
     xmlns:core="using:jinritoutiao.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="MainPage_OnLoaded">
     <Page.Resources>
         <!-- 评论样式 -->
         <Style TargetType="TextBlock" x:Key="SubTextStyle">
-            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontSize" Value="14" />
             <Setter Property="Foreground" Value="Gray" />
             <Setter Property="Margin" Value="12,0"></Setter>
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -30,18 +31,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="135"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <local:HeaderControl Opacity="0.8" Grid.Row="0" x:Name="MyHeaderControl" Height="120"/>
-        <Grid Grid.Row="1">
-            <ListView Name="DataListView" ItemsSource="{Binding ReceiveDatas}">
+        <ProgressBar Margin="0 5" Grid.Row="0" Name="ProgressBar" VerticalAlignment="Bottom" Visibility="Collapsed" IsIndeterminate="True"></ProgressBar>
+
+        <Grid Grid.Row="1" Name="DatalistGrid">
+            <ListView Grid.Row="0" SelectionMode="Extended" Loaded="DataListView_OnLoaded" Name="DataListView" ItemsSource="{Binding ReceiveDatas}" SelectionChanged="DataListView_SelectionChanged" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <template:CustomItemTemplateSelector Content="{Binding}">
                             <!-- 无图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.NoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" BorderBrush="DarkGray">
+                                    <Border BorderThickness="0 1 0 0" Margin="0 5" BorderBrush="DarkGray">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -49,15 +52,13 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}" Text="{Binding Title}" />
 
-                                            <Grid Grid.Row="1" >
+                                            <Grid Grid.Row="1">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
-                                                <TextBlock Grid.Column="1" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}"><Run>评论数:</Run> <Run Text="{Binding CommentsCount}"></Run></TextBlock>
+                                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                             </Grid>
                                         </Grid>
                                     </Border>
@@ -86,11 +87,9 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}"  Text="{Binding Source}"/>
-                                                <TextBlock Grid.Column="1" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}"><Run>评论数:</Run> <Run Text="{Binding CommentsCount}"></Run></TextBlock>
+                                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}"  Text="{Binding Source}"/>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                             </Grid>
                                         </Grid>
                                     </Border>
@@ -113,11 +112,9 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
-                                                <TextBlock Grid.Column="1" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}"><Run>评论数:</Run> <Run Text="{Binding CommentsCount}"></Run></TextBlock>
+                                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                                 
                                             </Grid>
 
@@ -152,11 +149,9 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
-                                                <TextBlock Grid.Column="1" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}"><Run>评论数:</Run> <Run Text="{Binding CommentsCount}"></Run></TextBlock>
+                                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                                 
                                             </Grid>
 
@@ -177,6 +172,11 @@
                         </template:CustomItemTemplateSelector>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Grid Background="WhiteSmoke" Name="FooterGrid" Visibility="Collapsed">
+                        <HyperlinkButton Margin="10" Foreground="Black" HorizontalAlignment="Stretch" FontSize="16" Click="ButtonBase_OnClick">● ● ●</HyperlinkButton>
+                    </Grid>
+                </ListView.Footer>
             </ListView>
         </Grid>
     </Grid>

@@ -13,7 +13,7 @@
     Height="{Binding Height}">
     <UserControl.Resources>
     	<sampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
-        <Storyboard x:Name="RefreshImageStoryboard">
+        <Storyboard x:Name="RefreshImageStoryboard" x:FieldModifier="public">
         	<DoubleAnimation Duration="0:0:0.8"
         		Storyboard.TargetName="RefreshProjection"
         		Storyboard.TargetProperty="RotationZ" From="360" To="0" />
@@ -170,17 +170,16 @@
                 <Image Height="25" Margin="15"
 					   Source="Assets/images/refresh.png" 
 					   Stretch="Fill" x:Name="RefreshImage"
-					   Tapped="RefreshImage_OnTapped"
-                       >
+					   x:FieldModifier="public">
                     <Image.Projection>
 						<PlaneProjection x:Name="RefreshProjection"/>
 					</Image.Projection>
 				</Image>
 			</StackPanel>
 
-			<Image Grid.Column="2"
+			<Image Grid.Column="2" Width="60" Name="SearchImage" x:FieldModifier="public"
 				Source="Assets/images/search_icon.png" Margin="0,8"/>
-		</Grid>
+        </Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Visible" 
 			Grid.Row="1" 
 			BorderThickness="0 0 0 0.5" BorderBrush="DarkGray"
@@ -199,7 +198,7 @@
                 
 			</ListBox>
 		</ScrollViewer>
-        <Border Grid.Row="2" Background="White" BorderBrush="DimGray" BorderThickness="0 0 0 0.5">
+        <Border Grid.Row="2" Background="White" BorderThickness="0 0 0 0">
             <TextBlock Name="DatetimeTextBlock" Margin="10 3" FontSize="12" Text="{Binding CurrentTime}"></TextBlock>
         </Border>
 	</Grid>

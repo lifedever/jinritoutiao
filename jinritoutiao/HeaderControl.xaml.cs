@@ -27,6 +27,8 @@ namespace jinritoutiao
         public ObservableCollection<HeaderMenu> HeaderMenus { get; set; }
         public string CurrentTime { get; set; }
         public double Height { get; set; }
+
+
         public HeaderControl()
         {
             this.InitializeComponent();
@@ -38,16 +40,6 @@ namespace jinritoutiao
             Height = 100;
         }
 
-
-        private void RefreshImage_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            RefreshImageStoryboard.Begin();
-        }
-
-        private void MenuListView_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            var item = sender as ListViewItem;
-            //Debug.WriteLine();
-        }
+      
     }
 }
