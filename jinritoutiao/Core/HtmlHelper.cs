@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,13 +19,20 @@ namespace jinritoutiao.Core
 
         public void HttpGet(string url)
         {
-            _simpleDispatcher = Window.Current.Dispatcher;
-            //创建WebRequest类
-            var request = WebRequest.CreateHttp(new Uri(url));
-            //设置请求方式GET POST
-            request.Method = "GET";
-            //返回应答请求异步操作的状态                
-            request.BeginGetResponse(ResponseCallback, request);
+            try
+            {
+                _simpleDispatcher = Window.Current.Dispatcher;
+                //创建WebRequest类
+                var request = WebRequest.CreateHttp(new Uri(url));
+                //设置请求方式GET POST
+                request.Method = "GET";
+                //返回应答请求异步操作的状态                
+                request.BeginGetResponse(ResponseCallback, request);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
 
         }
 

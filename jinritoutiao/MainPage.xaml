@@ -21,7 +21,7 @@
         
         <!-- 标题样式 -->
         <Style TargetType="TextBlock" x:Key="TitleTextStyle">
-            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontSize" Value="22" />
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
 
@@ -44,7 +44,7 @@
                             <!-- 无图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.NoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Margin="0 5" BorderBrush="DarkGray">
+                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -68,7 +68,7 @@
                             <!-- 一张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.OneImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" BorderBrush="DarkGray">
+                                    <Border BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -99,7 +99,7 @@
                             <!-- 两张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.TwoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" BorderBrush="DarkGray">
+                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -136,7 +136,7 @@
                             <!-- 三张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.ThreeImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" BorderBrush="DarkGray">
+                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>

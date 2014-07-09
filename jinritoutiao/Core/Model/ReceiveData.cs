@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Xaml;
 
 namespace jinritoutiao.Core.Model
 {
@@ -33,7 +34,7 @@ namespace jinritoutiao.Core.Model
         private int _imageCount = 0;
         private string[] _imageList;
         private MiddleImage _middleImage;
-
+        private double _screenWidth;
         public string Abstract
         {
             get { return _abstract; }
@@ -207,6 +208,20 @@ namespace jinritoutiao.Core.Model
         {
             get { return _imageList; }
             set { _imageList = value; }
+        }
+
+        public double ScreenWidth
+        {
+            get
+            {
+                _screenWidth = Window.Current.Bounds.Width;
+                return _screenWidth;
+            }
+            set
+            {
+                _screenWidth = value; 
+                
+            }
         }
     }
 }

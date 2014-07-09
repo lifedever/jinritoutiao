@@ -13,15 +13,23 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Height="100" Background="{ThemeResource AppSolidColorBrush}" >
-            <TextBlock Margin="20 20 20 0" Foreground="White" FontSize="14" Name="DateTextBlock"/>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                <TextBlock Margin="20 10 20 10" Foreground="White" FontSize="28" Name="TitleTextBlock"/>
-            </ScrollViewer>
-        </StackPanel>
+        <ScrollViewer  Grid.Row="0" Height="40"
+                       HorizontalScrollBarVisibility="Auto"
+                       BorderThickness="0 0 0 1" BorderBrush="DarkGray"
+                       Background="WhiteSmoke">
+            <TextBlock Name="UrlTextBlock" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}" Margin="10"></TextBlock>
+        </ScrollViewer>
         <WebView Grid.Row="1" Name="ItemWebView" Margin="0,10,0,0"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
                  NavigationStarting="ItemWebView_OnNavigationStarting"></WebView>
-        <ProgressRing Grid.Row="1" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
+        <ProgressRing Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <AppBarButton Icon="Back" Label="后退" Name="BackAppBarButton" Click="BackAppBarButton_OnClick"/>
+            <AppBarButton Icon="Refresh" Label="刷新" Name="RefreshAppBarButton" Click="RefreshAppBarButton_OnClick"/>
+            <AppBarButton Icon="Forward" Label="前进" Name="ForwardAppBarButton" Click="ForwardAppBarButton_OnClick"/>
+            <AppBarButton Label="收藏" Name="FavoriteAppBarButton" Click="FavoriteAppBarButton_OnClick" Icon="Favorite"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

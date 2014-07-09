@@ -36,81 +36,113 @@ namespace jinritoutiao.Core
             {
                 Debug.WriteLine(html);
                 var jsonObject = JsonObject.Parse(html);
-                var message = jsonObject["message"].GetString();
 
-                if (message.Equals("success"))  // 返回数据成功！
+                if (html.Contains("message"))
                 {
-                    var dataArray = jsonObject["data"].GetArray();
-                    var nextObj = jsonObject["next"].GetObject();
+                    var message = jsonObject["message"].GetString();
 
-                    Next.MaxBehotTime = ((int)nextObj["max_behot_time"].GetNumber()).ToString();
-                    Next.MinBehotTime = ((int)nextObj["min_behot_time"].GetNumber()).ToString();
-
-                
-
-                    _simpleDispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    if (message.Equals("success"))  // 返回数据成功！
                     {
-                        foreach (var itemValue in dataArray)
+                        var dataArray = jsonObject["data"].GetArray();
+
+                        if (html.Contains("next"))
                         {
-                            var itemJson = itemValue.Stringify();
-                            JsonObject itemObject = itemValue.GetObject();
-                            // 存在Image_list，可显示多个图片
-                            string[] imageArray = new string[3];
-                            int imageCount = 0;
+                            var nextObj = jsonObject["next"].GetObject();
 
-                            if (itemJson.Contains("image_url"))
-                            {
-                                imageArray[0] = itemObject["image_url"].GetString();
-                                imageCount = 1;
-                            }
-                            else if (itemJson.Contains("image_list"))
-                            {
-                                var images = itemObject["image_list"].GetArray();
-                                if (images.Count == 1)  //一张图片
-                                {
-                                    imageArray[0] = images[0].GetObject()["url"].GetString();
-                                    imageCount = 1;
-                                }
-                                else if (images.Count == 2)
-                                {
-                                    imageArray[0] = images[0].GetObject()["url"].GetString();
-                                    imageArray[1] = images[1].GetObject()["url"].GetString();
-                                    imageCount = 2;
-                                }
-                                else if (images.Count == 3)
-                                {
-                                    imageArray[0] = images[0].GetObject()["url"].GetString();
-                                    imageArray[1] = images[1].GetObject()["url"].GetString();
-                                    imageArray[2] = images[2].GetObject()["url"].GetString();
-                                    imageCount = 3;
-                                }
-                            }
+                            Next.MaxBehotTime = ((int)nextObj["max_behot_time"].GetNumber()).ToString();
+                            Next.MinBehotTime = ((int)nextObj["min_behot_time"].GetNumber()).ToString();
 
-
-                            string title = itemObject["title"].GetString();
-                            string sourceUrl = itemObject["source_url"].GetString();
-                            string source = itemObject["source"].GetString();
-                            int commentsCount = (int)itemObject["comments_count"].GetNumber();
-                            string datetime = itemObject["datetime"].GetString();
-                            string createTime = null;
-                            if (itemJson.Contains("create_time"))
-                                createTime = ((int)itemObject["create_time"].GetNumber()).ToString();
-                        
-                            ReceiveDatas.Add(new ReceiveData()
-                            {
-                                Title = title,
-                                SourceUrl = sourceUrl,
-                                ImageList = imageArray,
-                                ImageCount = imageCount,
-                                Source = source,
-                                CommentsCount = commentsCount,
-                                Datetime = datetime,
-                                CreateTime = createTime
-                            });
-                            FooterGrid.Visibility = Visibility.Visible;
-                            ProgressBar.Visibility = Visibility.Collapsed;
                         }
-                    });
+                        _simpleDispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                        {
+                            try
+                            {
+                                foreach (var itemValue in dataArray)
+                                {
+                                    var itemJson = itemValue.Stringify();
+                                    JsonObject itemObject = itemValue.GetObject();
+                                    // 存在Image_list，可显示多个图片
+                                    string[] imageArray = new string[3];
+                                    int imageCount = 0;
+
+
+                                    if (itemJson.Contains("large_image_url"))
+                                    {
+                                        imageArray[0] = itemObject["large_image_url"].GetString();
+                                        imageCount = 1;
+                                    }
+                                    else if (itemJson.Contains("image_url"))
+                                    {
+                                        imageArray[0] = itemObject["image_url"].GetString();
+                                        imageCount = 1;
+                                    }
+                                    else if (itemJson.Contains("image_list"))
+                                    {
+                                        var images = itemObject["image_list"].GetArray();
+                                        if (itemObject["image_list"].Stringify().Contains("url"))
+                                        {
+                                            if (images.Count == 1)  //一张图片
+                                            {
+                                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                                imageCount = 1;
+                                            }
+                                            else if (images.Count == 2)
+                                            {
+                                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                                imageArray[1] = images[1].GetObject()["url"].GetString();
+                                                imageCount = 2;
+                                            }
+                                            else if (images.Count == 3)
+                                            {
+                                                imageArray[0] = images[0].GetObject()["url"].GetString();
+                                                imageArray[1] = images[1].GetObject()["url"].GetString();
+                                                imageArray[2] = images[2].GetObject()["url"].GetString();
+                                                imageCount = 3;
+                                            }
+                                        }
+                                    }
+
+                                    long id = (long)itemObject["id"].GetNumber();
+                                    string title = "";
+                                    if (itemJson.Contains("title"))
+                                        title = itemObject["title"].GetString();
+                                    string sourceUrl = "";
+                                    if (itemJson.Contains("source_url"))
+                                        sourceUrl = itemObject["source_url"].GetString();
+                                    string source = "";
+                                    if (itemJson.Contains("source"))
+                                        source = itemObject["source"].GetString();
+                                    int commentsCount = 0;
+                                    if (itemJson.Contains("comments_count"))
+                                        commentsCount = (int)itemObject["comments_count"].GetNumber();
+                                    string datetime = "";
+                                    if (itemJson.Contains("datetime"))
+                                        datetime = itemObject["datetime"].GetString();
+                                    string createTime = null;
+                                    if (itemJson.Contains("create_time"))
+                                        createTime = ((int)itemObject["create_time"].GetNumber()).ToString();
+                                    ReceiveDatas.Add(new ReceiveData()
+                                    {
+                                        Id = id,
+                                        Title = title,
+                                        SourceUrl = sourceUrl,
+                                        ImageList = imageArray,
+                                        ImageCount = imageCount,
+                                        Source = source,
+                                        CommentsCount = commentsCount,
+                                        Datetime = datetime,
+                                        CreateTime = createTime
+                                    });
+                                    FooterGrid.Visibility = Visibility.Visible;
+                                    ProgressBar.Visibility = Visibility.Collapsed;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine(e);
+                            }
+                        });
+                    }
                 }
             }
             catch (Exception e)

@@ -5,9 +5,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -51,7 +54,16 @@ namespace jinritoutiao
             
             InitStatusBar();
             InitHeaderMenu();
-           
+            InitConfig();
+
+        }
+
+        /// <summary>
+        /// 初始化配置信息
+        /// </summary>
+        private void InitConfig()
+        {
+            App.FavoriteDatas = ToutiaoHelper.ReadFavorite().Result;    //加载存储的喜欢列表
         }
 
         #region 初始化信息
@@ -81,21 +93,28 @@ namespace jinritoutiao
 
         private void ReloadData()
         {
-            MyHeaderControl.RefreshImageStoryboard.Begin();
-            ProgressBar.Visibility = Visibility.Visible;
-            FooterGrid.Visibility = Visibility.Collapsed;
-            HtmlParseHelper = new HtmlParseHelper(ReceiveDatas, Next, FooterGrid, ProgressBar);
-
-            string maxCreateTime = null;
-
-            if (ReceiveDatas.Count>0)
+            try
             {
-                maxCreateTime = ReceiveDatas.LastOrDefault().CreateTime;
-            }
+                MyHeaderControl.RefreshImageStoryboard.Begin();
+                ProgressBar.Visibility = Visibility.Visible;
+                FooterGrid.Visibility = Visibility.Collapsed;
+                HtmlParseHelper = new HtmlParseHelper(ReceiveDatas, Next, FooterGrid, ProgressBar);
 
-            string url = ToutiaoHelper.GetArticleUrl(_headerMenu.Name, Next.MaxBehotTime, Next.MinBehotTime, maxCreateTime);
-            Debug.WriteLine(url);
-            HtmlParseHelper.HttpGet(url);
+                string maxCreateTime = null;
+
+                if (ReceiveDatas.Count>0)
+                {
+                    maxCreateTime = ReceiveDatas.LastOrDefault().CreateTime;
+                }
+
+                string url = ToutiaoHelper.GetArticleUrl(_headerMenu.Name, Next.MaxBehotTime, Next.MinBehotTime, maxCreateTime);
+                Debug.WriteLine(url);
+                HtmlParseHelper.HttpGet(url);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         /// <summary>

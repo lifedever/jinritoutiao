@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // “空白应用程序”模板在 http://go.microsoft.com/fwlink/?LinkId=391641 上有介绍
+using jinritoutiao.Core.Model;
 
 namespace jinritoutiao
 {
@@ -26,13 +27,15 @@ namespace jinritoutiao
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
-
+        public static List<ReceiveData> FavoriteDatas;
+        public static string FAVORITE_KEY = "favorites";
         /// <summary>
         /// 初始化单一实例应用程序对象。    这是执行的创作代码的第一行，
         /// 逻辑上等同于 main() 或 WinMain()。
         /// </summary>
         public App()
         {
+            FavoriteDatas = new List<ReceiveData>();
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
         }

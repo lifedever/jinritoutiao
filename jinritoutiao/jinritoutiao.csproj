@@ -96,7 +96,6 @@
     <Compile Include="Core\SampleData.cs" />
     <Compile Include="Core\Model\Next.cs" />
     <Compile Include="Core\Model\ReceiveData.cs" />
-    <Compile Include="Core\Model\ReceiveResult.cs" />
     <Compile Include="Core\ToutiaoHelper.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>

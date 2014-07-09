@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using Windows.Foundation;
+using Windows.Storage;
 using jinritoutiao.Core.Model;
+using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace jinritoutiao.Core
 {
@@ -14,7 +22,7 @@ namespace jinritoutiao.Core
     public sealed class ToutiaoHelper
     {
         private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&utm_source=toutiao";
-
+        private const string FILE_NAME = "favorite";
         /// <summary>
         /// 获取文章url
         /// </summary>
@@ -27,13 +35,13 @@ namespace jinritoutiao.Core
             string url = _articleUrl;
             if (!string.IsNullOrEmpty(maxBehotTime) && !string.IsNullOrEmpty(maxBehotTime))
             {
-                url += "&max_behot_time="+maxBehotTime+"&min_behot_time="+minBehotTime;
+                url += "&max_behot_time=" + maxBehotTime + "&min_behot_time=" + minBehotTime;
             }
             if (!string.IsNullOrEmpty(maxCreateTime))
             {
-                url += "&max_create_time="+maxCreateTime;
+                url += "&max_create_time=" + maxCreateTime;
             }
-            url += "_="+DateTime.Now.Ticks;
+            url += "_=" + DateTime.Now.Ticks;
             return string.Format(url, category);
         }
 
@@ -62,7 +70,49 @@ namespace jinritoutiao.Core
                 new HeaderMenu(){Name = "news_story", Title = "故事"},
                 new HeaderMenu(){Name = "news_essay", Title = "美文"}
             };
-        }  
+        }
 
+        /// <summary>
+        /// 写入文件
+        /// </summary>
+        /// <returns></returns>
+        public async static Task SaveFavorite()
+        {
+            string temp = "";
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(List<ReceiveData>));
+                ser.Serialize(sw, App.FavoriteDatas);
+                temp = sw.ToString();
+                sw.Dispose();
+            }
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await folder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
+            FileIO.WriteTextAsync(file, temp, UnicodeEncoding.Utf8);
+            Debug.WriteLine(string.Format("Favorite count:{0}", App.FavoriteDatas.Count));
+        }
+
+        public async static Task<List<ReceiveData>> ReadFavorite()
+        {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            List<ReceiveData> tempList = new List<ReceiveData>();
+            try
+            {
+                StorageFile file = await folder.GetFileAsync(FILE_NAME);
+                string text = await FileIO.ReadTextAsync(file, UnicodeEncoding.Utf8);
+                Debug.WriteLine(text);
+                using (StringReader rdr = new StringReader(text))
+                {
+                    XmlSerializer ser = new XmlSerializer(typeof(List<ReceiveData>));
+                    tempList = (List<ReceiveData>)ser.Deserialize(rdr);
+                    rdr.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            return tempList;
+        }
     }
 }
