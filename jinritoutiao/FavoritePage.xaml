@@ -36,7 +36,7 @@
             <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ListViewItemTextBlockStyle}">我的收藏</TextBlock>
         </Grid>
         <Grid Grid.Row="1" Name="DatalistGrid">
-            <ListView Grid.Row="0" Margin="0 10"  Name="FavoriteListView" SelectionChanged="FavoriteListView_OnSelectionChanged" SelectionMode="Extended" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
+            <ListView Grid.Row="0" Margin="0 10"  Name="FavoriteListView" SelectionChanged="FavoriteListView_OnSelectionChanged" SelectionMode="Single" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <template:CustomItemTemplateSelector Content="{Binding}">
@@ -170,7 +170,6 @@
                         </template:CustomItemTemplateSelector>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
             </ListView>
         </Grid>
     </Grid>

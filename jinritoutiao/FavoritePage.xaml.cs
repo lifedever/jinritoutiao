@@ -100,5 +100,21 @@ namespace jinritoutiao
             Frame.Navigate(typeof(ItemBrowsePage), item);
         }
 
+
+        private void Border_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            
+            PopupMenu menu = new PopupMenu();
+            menu.Commands.Add(new UICommand("删除", command => Debug.WriteLine(FavoriteListView.SelectedIndex)));
+            menu.ShowForSelectionAsync(GetElementRect((FrameworkElement)sender));
+        }
+
+        private static Rect GetElementRect(FrameworkElement element)
+        {
+            GeneralTransform buttonTransform = element.TransformToVisual(null);
+            Point point = buttonTransform.TransformPoint(new Point());
+            return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
+        }
+       
     }
 }

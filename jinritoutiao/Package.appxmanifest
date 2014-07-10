@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="f53c0fe5-d844-4f25-bc44-5454c6a79b5c" Publisher="CN=gefangshuai" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="f53c0fe5-d844-4f25-bc44-5454c6a79b5c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="38578LifeDever.412443E5625E3" Publisher="CN=BE6693C6-253C-4FCF-B63B-3650521D1AE6" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="a4d34858-3197-4d1d-bf55-85fdd60e9dab" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>jinritoutiao</DisplayName>
+    <DisplayName>今日头条(非官方)</DisplayName>
     <PublisherDisplayName>LifeDever</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
