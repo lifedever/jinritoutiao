@@ -35,11 +35,16 @@
             <TextBlock Margin="0 10 0 0" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}">
                 支持我：（您的支持是我进步的动力！）
             </TextBlock>
-            <TextBlock FontSize="18" TextWrapping="Wrap"  Foreground="{StaticResource AppSolidColorBrush}">
-                试用版与收费版功能没有任何区别，如果您支持我的辛苦劳动，请购买完整版！
+            <TextBlock FontSize="18" TextWrapping="WrapWholeWords" Foreground="{StaticResource AppSolidColorBrush}">
+                支付宝捐助账户：
             </TextBlock>
+            <TextBlock FontSize="18" TextWrapping="WrapWholeWords" Foreground="{StaticResource AppSolidColorBrush}">
+                gefangshuai@163.com（请输入留言）
+            </TextBlock>
+
         </StackPanel>
         <StackPanel Margin="12" Grid.Row="2" VerticalAlignment="Bottom">
+            <Button HorizontalAlignment="Stretch" Name="DonateButton" Click="DonateButton_OnClick">查看捐助列表</Button>
             <Button HorizontalAlignment="Stretch" Name="RateButton" Click="RateButton_OnClick">给我好评</Button>
             <Button HorizontalAlignment="Stretch" Name="FeedbackButton" Click="FeedbackButton_OnClick">给我反馈</Button>
         </StackPanel>

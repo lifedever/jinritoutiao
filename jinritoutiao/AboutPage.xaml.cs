@@ -75,10 +75,7 @@ namespace jinritoutiao
             Launcher.LaunchUriAsync(new Uri("http://wincn.net", UriKind.Absolute));
         }
 
-        private void JuanButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-        }
+      
 
         private void RateButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -90,6 +87,11 @@ namespace jinritoutiao
         {
             var uriMailTo = "mailto:gefangshuai@163.com?subject=关于《今日头条》的反馈";
             Launcher.LaunchUriAsync(new Uri(uriMailTo, UriKind.Absolute));
+        }
+
+        private void DonateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Launcher.LaunchUriAsync(new Uri("http://wincn.net/donate/", UriKind.Absolute));
         }
     }
 }
