@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.UI.Notifications;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -45,7 +48,7 @@ namespace jinritoutiao
         /// </summary>
         /// <param name="e">描述如何访问此页的事件数据。
         /// 此参数通常用于配置页。</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             _receiveData = (ReceiveData)e.Parameter;
             if (_receiveData != null)
@@ -54,6 +57,19 @@ namespace jinritoutiao
                 ItemWebView.Navigate(new Uri(_receiveData.SourceUrl, UriKind.Absolute));
             }
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            List<ReceiveData> receiveDatas = await LocalFileHelper.Read<List<ReceiveData>>(ToutiaoHelper.FILE_NAME);
+            if (receiveDatas != null && receiveDatas.Count > 0)
+            {
+                App.FavoriteDatas = receiveDatas;
+            }
+            else
+            {
+                await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
+            }
+            
+            FavoriteAppBarButton.IsChecked = ExistItem();
+            FavoriteAppBarButton.Label = FavoriteAppBarButton.IsChecked == true ? "已收藏" : "收藏";
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -96,12 +112,45 @@ namespace jinritoutiao
             }
         }
 
-        private async void FavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        private bool ExistItem()
         {
-            var tempItem = App.FavoriteDatas.Find(n => n.Id == _receiveData.Id); 
-            if(tempItem == null)
+            var tempItem = App.FavoriteDatas.Find(n => n.Id == _receiveData.Id);
+            return tempItem != null;
+        }
+
+        private async void SaveFavorite()
+        {
+            if (!ExistItem())
                 App.FavoriteDatas.Add(_receiveData);
-            await ToutiaoHelper.SaveFavorite();
+            await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
+        }
+
+        private async void RemoveFavorite()
+        {
+            App.FavoriteDatas.RemoveAll(n => n.Id == _receiveData.Id);
+            await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
+        }
+
+        private void FavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (FavoriteAppBarButton.IsChecked == true)
+            {
+                SaveFavorite();
+                MessageDialog message = new MessageDialog("已添加到收藏！", "恭喜");
+                message.ShowAsync();
+            }
+            else
+            {
+                RemoveFavorite();
+                MessageDialog message = new MessageDialog("已从收藏中移除！", "恭喜");
+                message.ShowAsync();
+            }
+            FavoriteAppBarButton.Label = FavoriteAppBarButton.IsChecked == true ? "已收藏" : "收藏";
+        }
+
+        private void MyFavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(FavoritePage));
         }
     }
 }

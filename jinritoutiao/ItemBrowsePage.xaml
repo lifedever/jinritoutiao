@@ -9,10 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        
         <ScrollViewer  Grid.Row="0" Height="40"
                        HorizontalScrollBarVisibility="Auto"
                        BorderThickness="0 0 0 1" BorderBrush="DarkGray"
@@ -25,11 +27,16 @@
         <ProgressRing Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
-            <AppBarButton Icon="Back" Label="后退" Name="BackAppBarButton" Click="BackAppBarButton_OnClick"/>
-            <AppBarButton Icon="Refresh" Label="刷新" Name="RefreshAppBarButton" Click="RefreshAppBarButton_OnClick"/>
-            <AppBarButton Icon="Forward" Label="前进" Name="ForwardAppBarButton" Click="ForwardAppBarButton_OnClick"/>
-            <AppBarButton Label="收藏" Name="FavoriteAppBarButton" Click="FavoriteAppBarButton_OnClick" Icon="Favorite"/>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Back" Label="后退" Name="BackAppBarButton" Click="BackAppBarButton_OnClick"/>
+                <AppBarButton Icon="Refresh" Label="刷新" Name="RefreshAppBarButton" Click="RefreshAppBarButton_OnClick"/>
+                <AppBarButton Icon="Forward" Label="前进" Name="ForwardAppBarButton" Click="ForwardAppBarButton_OnClick"/>
+                <AppBarToggleButton Label="收藏" Name="FavoriteAppBarButton" Click="FavoriteAppBarButton_OnClick" Icon="Favorite"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="我的收藏" Name="MyFavoriteAppBarButton" Click="MyFavoriteAppBarButton_OnClick"></AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

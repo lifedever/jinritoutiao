@@ -61,9 +61,10 @@ namespace jinritoutiao
         /// <summary>
         /// 初始化配置信息
         /// </summary>
-        private void InitConfig()
+        private async void InitConfig()
         {
-            App.FavoriteDatas = ToutiaoHelper.ReadFavorite().Result;    //加载存储的喜欢列表
+            
+
         }
 
         #region 初始化信息
@@ -190,6 +191,7 @@ namespace jinritoutiao
 
         private void DataListView_OnLoaded(object sender, RoutedEventArgs e)
         {
+
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -197,9 +199,11 @@ namespace jinritoutiao
             ReloadData();
         }
 
-        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        private async void MainPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             MyHeaderControl.RefreshImage.Tapped += RefreshImage_Tapped;
+
+           
         }
 
         void RefreshImage_Tapped(object sender, TappedRoutedEventArgs e)
@@ -208,6 +212,17 @@ namespace jinritoutiao
             Next.MinBehotTime = null;
             Next.MaxBehotTime = null;
             ReloadData();
+        }
+
+        private void FavoriteAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof (FavoritePage));
+        }
+
+        private void AboutAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof (AboutPage));
+
         }
     }
 }
