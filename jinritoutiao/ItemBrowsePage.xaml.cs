@@ -53,7 +53,7 @@ namespace jinritoutiao
             _receiveData = (ReceiveData)e.Parameter;
             if (_receiveData != null)
             {
-                UrlTextBlock.Text = _receiveData.SourceUrl;
+                //UrlTextBlock.Text = _receiveData.SourceUrl;
                 ItemWebView.Navigate(new Uri(_receiveData.SourceUrl, UriKind.Absolute));
             }
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;

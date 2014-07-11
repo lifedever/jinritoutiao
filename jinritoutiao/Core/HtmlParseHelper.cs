@@ -106,6 +106,10 @@ namespace jinritoutiao.Core
                                     string title = "";
                                     if (itemJson.Contains("title"))
                                         title = itemObject["title"].GetString();
+                                    string _abstract = "";
+                                    if(itemJson.Contains("abstract"))
+                                        _abstract = itemObject["abstract"].GetString();
+
                                     string sourceUrl = "";
                                     if (itemJson.Contains("source_url"))
                                         sourceUrl = itemObject["source_url"].GetString();
@@ -125,6 +129,7 @@ namespace jinritoutiao.Core
                                     {
                                         Id = id,
                                         Title = title,
+                                        Abstract = _abstract,
                                         SourceUrl = sourceUrl,
                                         ImageList = imageArray,
                                         ImageCount = imageCount,

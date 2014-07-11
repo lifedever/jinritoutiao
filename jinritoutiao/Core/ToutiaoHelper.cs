@@ -31,6 +31,7 @@ namespace jinritoutiao.Core
         public static string GetArticleUrl(string category, string maxBehotTime, string minBehotTime, string maxCreateTime)
         {
             string url = _articleUrl;
+
             if (!string.IsNullOrEmpty(maxBehotTime) && !string.IsNullOrEmpty(maxBehotTime))
             {
                 url += "&max_behot_time=" + maxBehotTime + "&min_behot_time=" + minBehotTime;

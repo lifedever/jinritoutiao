@@ -6,6 +6,7 @@ namespace jinritoutiao.Core.Model
     public class ReceiveData
     {
         private string _abstract;
+        private bool _isAbstract;
         private string _middleMode;
         private string _datetime;
         private string _moreMode;
@@ -222,6 +223,12 @@ namespace jinritoutiao.Core.Model
                 _screenWidth = value; 
                 
             }
+        }
+
+        public bool IsAbstract
+        {
+            get { return _isAbstract; }
+            set { _isAbstract = value; }
         }
     }
 }

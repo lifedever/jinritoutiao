@@ -108,6 +108,8 @@ namespace jinritoutiao
                     maxCreateTime = ReceiveDatas.LastOrDefault().CreateTime;
                 }
 
+
+
                 string url = ToutiaoHelper.GetArticleUrl(_headerMenu.Name, Next.MaxBehotTime, Next.MinBehotTime, maxCreateTime);
                 Debug.WriteLine(url);
                 HtmlParseHelper.HttpGet(url);
@@ -153,8 +155,15 @@ namespace jinritoutiao
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedTo(e);
+
             DataListView.SelectedItem = null;
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            foreach (ReceiveData receiveData in ReceiveDatas)
+            {
+                receiveData.IsAbstract = SettingsHelper.GetAbstractState();
+            }
+
         }
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
@@ -223,6 +232,11 @@ namespace jinritoutiao
         {
             Frame.Navigate(typeof (AboutPage));
 
+        }
+
+        private void SettingsAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof (SettingsPage), this);
         }
     }
 }

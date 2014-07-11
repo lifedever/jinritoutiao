@@ -15,7 +15,6 @@
         <Style TargetType="TextBlock" x:Key="SubTextStyle">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Foreground" Value="Gray" />
-            <Setter Property="Margin" Value="12,0"></Setter>
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         
@@ -26,7 +25,7 @@
         </Style>
 
         <core:ImageConvert x:Key="ImageConvert" />
-
+        <core:AbstractStateConvert x:Key="AbstractStateConvert"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -37,7 +36,7 @@
         <ProgressBar Margin="0 5" Grid.Row="0" Name="ProgressBar" VerticalAlignment="Bottom" Visibility="Collapsed" IsIndeterminate="True"></ProgressBar>
 
         <Grid Grid.Row="1" Name="DatalistGrid">
-            <ListView Grid.Row="0" SelectionMode="Extended" Loaded="DataListView_OnLoaded" Name="DataListView" ItemsSource="{Binding ReceiveDatas}" SelectionChanged="DataListView_SelectionChanged" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
+            <ListView x:FieldModifier="public" Grid.Row="0" SelectionMode="Extended" Loaded="DataListView_OnLoaded" Name="DataListView" ItemsSource="{Binding ReceiveDatas}" SelectionChanged="DataListView_SelectionChanged" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <template:CustomItemTemplateSelector Content="{Binding}">
@@ -45,14 +44,11 @@
                             <template:CustomItemTemplateSelector.NoImageDataTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition Height="20"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}" Text="{Binding Title}" />
-
-                                            <Grid Grid.Row="1">
+                                        <StackPanel>
+                                            
+                                            <TextBlock Margin="10 5" Style="{StaticResource TitleTextStyle}" Text="{Binding Title}" />
+                                            <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
+                                            <Grid Margin="10 5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -60,7 +56,7 @@
                                                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
                                                 <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                             </Grid>
-                                        </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </template:CustomItemTemplateSelector.NoImageDataTemplate>
@@ -69,21 +65,20 @@
                             <template:CustomItemTemplateSelector.OneImageDataTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition Height="20"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                                <ColumnDefinition Width="150"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Row="0" Margin="10" Grid.Column="0" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}"/>
-                                        
-                                            <Image Grid.Row="0" Grid.Column="1" Margin="10"
-                                                   Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
-                                        
-                                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Margin="10 5" Grid.Column="0"  Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}"/>
+
+                                                <Image Grid.Column="1" Margin="10 5"
+                                                       Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
+                                            </Grid>
+                                            <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
+
+                                            <Grid Margin="10 5" >
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -91,7 +86,7 @@
                                                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}"  Text="{Binding Source}"/>
                                                 <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
                                             </Grid>
-                                        </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </template:CustomItemTemplateSelector.OneImageDataTemplate>
@@ -100,15 +95,12 @@
                             <template:CustomItemTemplateSelector.TwoImageDataTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition Height="20"></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
+                                        <StackPanel>
+                                            
+                                            <TextBlock  Margin="10 5" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
+                                            <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
 
-                                            <Grid Grid.Row="1" >
+                                            <Grid  Margin="10 5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -118,7 +110,7 @@
                                                 
                                             </Grid>
 
-                                            <Grid Grid.Row="2" Height="120">
+                                            <Grid Height="120"   Margin="5 5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -129,7 +121,7 @@
                                                 <Image Grid.Column="1" Margin="5" Stretch="Fill" 
                                                        Source="{Binding ImageList[1], Converter={StaticResource ImageConvert}}"></Image>
                                             </Grid>
-                                        </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </template:CustomItemTemplateSelector.TwoImageDataTemplate>
@@ -137,15 +129,12 @@
                             <template:CustomItemTemplateSelector.ThreeImageDataTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition Height="20"></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
+                                        <StackPanel>
+                                            
+                                            <TextBlock  Margin="10 5" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
+                                            <TextBlock Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" Margin="10 0" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
 
-                                            <Grid Grid.Row="1" >
+                                            <Grid Margin="10 5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -155,7 +144,7 @@
                                                 
                                             </Grid>
 
-                                            <Grid Grid.Row="2" Height="120">
+                                            <Grid  Height="120" Margin="5 5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -165,7 +154,7 @@
                                                 <Image Grid.Column="1" Margin="5" Stretch="Fill" Source="{Binding ImageList[1], Converter={StaticResource ImageConvert}}"></Image>
                                                 <Image Grid.Column="2" Margin="5" Stretch="Fill" Source="{Binding ImageList[2], Converter={StaticResource ImageConvert}}"></Image>
                                             </Grid>
-                                        </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </template:CustomItemTemplateSelector.ThreeImageDataTemplate>
@@ -174,7 +163,7 @@
                 </ListView.ItemTemplate>
                 <ListView.Footer>
                     <Grid Background="WhiteSmoke" Name="FooterGrid" Visibility="Collapsed">
-                        <HyperlinkButton Margin="10" Foreground="Black" HorizontalAlignment="Stretch" FontSize="16" Click="ButtonBase_OnClick">● ● ●</HyperlinkButton>
+                        <HyperlinkButton Margin="10" Foreground="Black" HorizontalAlignment="Stretch" FontSize="14" Click="ButtonBase_OnClick">点击加载下一页</HyperlinkButton>
                     </Grid>
                 </ListView.Footer>
             </ListView>
@@ -186,6 +175,7 @@
                 <AppBarButton Label="我的收藏" Icon="Favorite" Click="FavoriteAppBarButton_Click"/>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
+                <AppBarButton Label="设置" Name="SettingsAppBarButton" Click="SettingsAppBarButton_OnClick"></AppBarButton>
                 <AppBarButton Label="关于" Name="AboutAppBarButton" Click="AboutAppBarButton_OnClick"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>

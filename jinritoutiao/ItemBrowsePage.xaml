@@ -15,13 +15,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <ScrollViewer  Grid.Row="0" Height="40"
-                       HorizontalScrollBarVisibility="Auto"
-                       BorderThickness="0 0 0 1" BorderBrush="DarkGray"
-                       Background="WhiteSmoke">
-            <TextBlock Name="UrlTextBlock" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}" Margin="10"></TextBlock>
-        </ScrollViewer>
-        <WebView Grid.Row="1" Name="ItemWebView" Margin="0,10,0,0"
+        <WebView Grid.Row="1" Name="ItemWebView" Margin="2"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
                  NavigationStarting="ItemWebView_OnNavigationStarting"></WebView>
         <ProgressRing Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
