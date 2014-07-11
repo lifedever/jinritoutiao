@@ -50,6 +50,9 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
+
+
             _receiveData = (ReceiveData)e.Parameter;
             if (_receiveData != null)
             {

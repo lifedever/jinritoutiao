@@ -13,12 +13,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
         <WebView Grid.Row="1" Name="ItemWebView" Margin="2"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
                  NavigationStarting="ItemWebView_OnNavigationStarting"></WebView>
-        <ProgressRing Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
+        <ProgressRing Grid.Row="1" Grid.Column="0" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
+        <Grid Grid.Row="2" Name="AdGrid">
+        </Grid>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>

@@ -30,5 +30,6 @@
   <Capabilities>
     <Capability Name="internetClientServer" />
     <Capability Name="removableStorage" />
+    <DeviceCapability Name="location" />
   </Capabilities>
 </Package>
