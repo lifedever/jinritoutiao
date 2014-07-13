@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,6 +36,7 @@ namespace jinritoutiao
         private readonly NavigationHelper _navigationHelper;
         private ListBox _headMenuListBox;
         private HeaderMenu _headerMenu;
+        
 
         public HtmlParseHelper HtmlParseHelper { get; set; }
 
@@ -64,7 +66,6 @@ namespace jinritoutiao
         private async void InitConfig()
         {
             
-
         }
 
         #region 初始化信息
@@ -200,7 +201,7 @@ namespace jinritoutiao
 
         private void DataListView_OnLoaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -238,5 +239,45 @@ namespace jinritoutiao
         {
             Frame.Navigate(typeof (SettingsPage), this);
         }
+
+
+        private bool ExistItem(ReceiveData receiveData)
+        {
+            var tempItem = App.FavoriteDatas.Find(n => n.Id == receiveData.Id);
+            return tempItem != null;
+        }
+
+        private async void SaveFavorite(ReceiveData receiveData)
+        {
+            if (!ExistItem(receiveData))
+                App.FavoriteDatas.Add(receiveData);
+            await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
+            ToutiaoHelper.ShowMessage("已添加到收藏，请到“我的收藏”中查看！", MessageTextBlock, MyFlyout, this);
+        }
+
+        private void AddItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuFlyoutItem;
+            long id = menuItem != null && menuItem.Tag is long ? (long)menuItem.Tag : 0;
+
+            var item  = ReceiveDatas.FirstOrDefault(n => n.Id == id);
+            SaveFavorite(item);
+        }
+
+
+
+
+        private void UIElement_OnHolding(object sender, HoldingRoutedEventArgs e)
+        {
+            FrameworkElement senderElement = sender as FrameworkElement;
+            FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+            flyoutBase.ShowAt(senderElement);
+        }
+
+
+        #region utils
+
+        
+        #endregion
     }
 }

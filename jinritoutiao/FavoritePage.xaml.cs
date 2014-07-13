@@ -101,20 +101,24 @@ namespace jinritoutiao
         }
 
 
-        private void Border_PointerReleased(object sender, PointerRoutedEventArgs e)
+        
+        private void UIElement_OnHolding(object sender, HoldingRoutedEventArgs e)
         {
-            
-            PopupMenu menu = new PopupMenu();
-            menu.Commands.Add(new UICommand("删除", command => Debug.WriteLine(FavoriteListView.SelectedIndex)));
-            menu.ShowForSelectionAsync(GetElementRect((FrameworkElement)sender));
+            FrameworkElement senderElement = sender as FrameworkElement;
+            FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+            flyoutBase.ShowAt(senderElement);
+
         }
 
-        private static Rect GetElementRect(FrameworkElement element)
+        private async void RemoveItem_OnClick(object sender, RoutedEventArgs e)
         {
-            GeneralTransform buttonTransform = element.TransformToVisual(null);
-            Point point = buttonTransform.TransformPoint(new Point());
-            return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
+            var menuItem = sender as MenuFlyoutItem;
+            long id = menuItem != null && menuItem.Tag is long ? (long) menuItem.Tag : 0;
+            App.FavoriteDatas.RemoveAll(n => n.Id == id);
+            FavoriteListView.ItemsSource = null;
+            FavoriteListView.ItemsSource = App.FavoriteDatas;
+            await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
+            ToutiaoHelper.ShowMessage("已将条目从我的收藏中移除！", MessageTextBlock, MyFlyout, this);
         }
-       
     }
 }

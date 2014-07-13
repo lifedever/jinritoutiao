@@ -139,14 +139,12 @@ namespace jinritoutiao
             if (FavoriteAppBarButton.IsChecked == true)
             {
                 SaveFavorite();
-                MessageDialog message = new MessageDialog("已添加到收藏！", "恭喜");
-                message.ShowAsync();
+                ToutiaoHelper.ShowMessage("已添加到收藏！", MessageTextBlock, MyFlyout, this);
             }
             else
             {
                 RemoveFavorite();
-                MessageDialog message = new MessageDialog("已从收藏中移除！", "恭喜");
-                message.ShowAsync();
+                ToutiaoHelper.ShowMessage("已从收藏中移除！", MessageTextBlock, MyFlyout, this);
             }
             FavoriteAppBarButton.Label = FavoriteAppBarButton.IsChecked == true ? "已收藏" : "收藏";
         }

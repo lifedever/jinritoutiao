@@ -7,7 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <FlyoutBase.AttachedFlyout>
+        <Flyout x:Name="MyFlyout">
+            <Flyout.FlyoutPresenterStyle>
+                <Style TargetType="FlyoutPresenter">
+                    <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}"></Setter>
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+            <Flyout.Content>
+                <StackPanel Margin="12 0">
+                    <TextBlock Foreground="White" Name="MessageTextBlock" FontSize="18" TextWrapping="Wrap">
 
+                    </TextBlock>
+                </StackPanel>
+            </Flyout.Content>
+        </Flyout>
+    </FlyoutBase.AttachedFlyout>
     <Grid>
         
         <Grid.RowDefinitions>

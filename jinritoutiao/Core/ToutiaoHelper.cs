@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using jinritoutiao.Core.Model;
 
 namespace jinritoutiao.Core
@@ -21,6 +23,7 @@ namespace jinritoutiao.Core
     {
         private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&utm_source=toutiao";
         public const string FILE_NAME = "favorite";
+        private static DispatcherTimer _dispatcherTimer;
         /// <summary>
         /// 获取文章url
         /// </summary>
@@ -71,5 +74,19 @@ namespace jinritoutiao.Core
             };
         }
 
+        public static void ShowMessage(String message, TextBlock messageTextBlock, Flyout flyout, UserControl control)
+        {
+            if (_dispatcherTimer == null)
+                _dispatcherTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 2) };
+            _dispatcherTimer.Tick += (sender1, o1) =>
+            {
+                flyout.Hide();
+                _dispatcherTimer.Stop();
+            };
+
+            messageTextBlock.Text = message;
+            flyout.ShowAt(control);
+            flyout.Opened += (sender, o) => _dispatcherTimer.Start();
+        }
     }
 }

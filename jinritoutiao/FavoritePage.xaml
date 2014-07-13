@@ -9,6 +9,22 @@
     xmlns:core="using:jinritoutiao.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="FavoritePage_OnLoaded">
+    <FlyoutBase.AttachedFlyout>
+        <Flyout x:Name="MyFlyout">
+            <Flyout.FlyoutPresenterStyle>
+                <Style TargetType="FlyoutPresenter">
+                    <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}"></Setter>
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+            <Flyout.Content>
+                <StackPanel Margin="12 0">
+                    <TextBlock Foreground="White" Name="MessageTextBlock" FontSize="18" TextWrapping="Wrap">
+
+                    </TextBlock>
+                </StackPanel>
+            </Flyout.Content>
+        </Flyout>
+    </FlyoutBase.AttachedFlyout>
     <Page.Resources>
         <!-- 评论样式 -->
         <Style TargetType="TextBlock" x:Key="SubTextStyle">
@@ -36,14 +52,24 @@
             <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ListViewItemTextBlockStyle}">我的收藏</TextBlock>
         </Grid>
         <Grid Grid.Row="1" Name="DatalistGrid">
-            <ListView Grid.Row="0" Margin="0 10"  Name="FavoriteListView" SelectionChanged="FavoriteListView_OnSelectionChanged" SelectionMode="Single" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
+            <ListView Grid.Row="0"  Margin="0 10"  Name="FavoriteListView" SelectionChanged="FavoriteListView_OnSelectionChanged" SelectionMode="Single" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <template:CustomItemTemplateSelector Content="{Binding}">
                             <!-- 无图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.NoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="删除" Name="RemoveItem" Tag="{Binding Id}" Click="RemoveItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -66,7 +92,17 @@
                             <!-- 一张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.OneImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="删除" Name="RemoveItem" Tag="{Binding Id}" Click="RemoveItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -97,7 +133,17 @@
                             <!-- 两张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.TwoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="删除" Name="RemoveItem" Tag="{Binding Id}" Click="RemoveItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
@@ -134,7 +180,17 @@
                             <!-- 三张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.ThreeImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="删除" Name="RemoveItem" Tag="{Binding Id}" Click="RemoveItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>

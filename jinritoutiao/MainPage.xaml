@@ -10,6 +10,22 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="MainPage_OnLoaded">
+    <FlyoutBase.AttachedFlyout>
+        <Flyout x:Name="MyFlyout">
+            <Flyout.FlyoutPresenterStyle>
+                <Style TargetType="FlyoutPresenter">
+                    <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}"></Setter>
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+            <Flyout.Content>
+                <StackPanel Margin="12 0">
+                    <TextBlock Foreground="White" Name="MessageTextBlock" FontSize="18" TextWrapping="Wrap">
+                        
+                    </TextBlock>
+                </StackPanel>
+            </Flyout.Content>
+        </Flyout>
+    </FlyoutBase.AttachedFlyout>
     <Page.Resources>
         <!-- 评论样式 -->
         <Style TargetType="TextBlock" x:Key="SubTextStyle">
@@ -27,7 +43,8 @@
         <core:ImageConvert x:Key="ImageConvert" />
         <core:AbstractStateConvert x:Key="AbstractStateConvert"/>
     </Page.Resources>
-    <Grid>
+    <Grid Name="RootGrid">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="135"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -35,17 +52,28 @@
         <local:HeaderControl Opacity="0.8" Grid.Row="0" x:Name="MyHeaderControl" Height="120"/>
         <ProgressBar Margin="0 5" Grid.Row="0" Name="ProgressBar" VerticalAlignment="Bottom" Visibility="Collapsed" IsIndeterminate="True"></ProgressBar>
 
-        <Grid Grid.Row="1" Name="DatalistGrid">
-            <ListView x:FieldModifier="public" Grid.Row="0" SelectionMode="Extended" Loaded="DataListView_OnLoaded" Name="DataListView" ItemsSource="{Binding ReceiveDatas}" SelectionChanged="DataListView_SelectionChanged" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
+        <Grid Grid.Row="1" Name="DatalistGrid" ManipulationMode="All">
+            <ListView x:FieldModifier="public" Loaded="DataListView_OnLoaded" Name="DataListView" ItemsSource="{Binding ReceiveDatas}" SelectionChanged="DataListView_SelectionChanged" Background="{ThemeResource AppBarBackgroundThemeBrush}" >
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <template:CustomItemTemplateSelector Content="{Binding}">
                             <!-- 无图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.NoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" Grid.Row="0" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}" HorizontalAlignment="Stretch" Margin="0 5" BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="稍后读" Name="AddItem" Tag="{Binding Id}" Click="AddItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <StackPanel>
-                                            
+
                                             <TextBlock Margin="10 5" Style="{StaticResource TitleTextStyle}" Text="{Binding Title}" />
                                             <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
                                             <Grid Margin="10 5">
@@ -64,7 +92,18 @@
                             <!-- 一张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.OneImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0"  Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch" BorderBrush="DarkGray">
+
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="稍后读" Name="AddItem" Tag="{Binding Id}" Click="AddItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <StackPanel>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
@@ -74,7 +113,7 @@
                                                 <TextBlock Margin="10 5" Grid.Column="0"  Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}"/>
 
                                                 <Image Grid.Column="1" Margin="10 5"
-                                                       Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
+                                                    Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
                                             </Grid>
                                             <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
 
@@ -94,9 +133,20 @@
                             <!-- 两张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.TwoImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="稍后读" Name="AddItem" Tag="{Binding Id}" Click="AddItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                         
                                         <StackPanel>
-                                            
+
                                             <TextBlock  Margin="10 5" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
                                             <TextBlock Margin="10 0" Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
 
@@ -107,7 +157,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
                                                 <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                
+
                                             </Grid>
 
                                             <Grid Height="120"   Margin="5 5">
@@ -117,9 +167,9 @@
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
                                                 <Image Grid.Column="0" Margin="5" Stretch="Fill" 
-                                                       Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
+                                                    Source="{Binding ImageList[0], Converter={StaticResource ImageConvert}}"></Image>
                                                 <Image Grid.Column="1" Margin="5" Stretch="Fill" 
-                                                       Source="{Binding ImageList[1], Converter={StaticResource ImageConvert}}"></Image>
+                                                    Source="{Binding ImageList[1], Converter={StaticResource ImageConvert}}"></Image>
                                             </Grid>
                                         </StackPanel>
                                     </Border>
@@ -128,9 +178,20 @@
                             <!-- 三张图片列表显示格式 -->
                             <template:CustomItemTemplateSelector.ThreeImageDataTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+                                    <Border Holding="UIElement_OnHolding" BorderThickness="0 1 0 0" Width="{Binding ScreenWidth}"  HorizontalAlignment="Stretch"  BorderBrush="DarkGray">
+
+                                        <FlyoutBase.AttachedFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                                    <Style TargetType="MenuFlyoutPresenter">
+                                                        <Setter Property="Background" Value="{StaticResource AppSolidColorBrush}" />
+                                                    </Style>
+                                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                                <MenuFlyoutItem Text="稍后读" Name="AddItem" Tag="{Binding Id}" Click="AddItem_OnClick"/>
+                                            </MenuFlyout>
+                                        </FlyoutBase.AttachedFlyout>
                                         <StackPanel>
-                                            
+
                                             <TextBlock  Margin="10 5" Style="{StaticResource TitleTextStyle}"  Text="{Binding Title}" />
                                             <TextBlock Visibility="{Binding IsAbstract, Converter={StaticResource AbstractStateConvert}}" Margin="10 0" TextWrapping="WrapWholeWords" Text="{Binding Abstract}" Style="{StaticResource ListViewItemContentTextBlockStyle}"></TextBlock>
 
@@ -141,7 +202,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource SubTextStyle}" Text="{Binding Source}"/>
                                                 <TextBlock Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource SubTextStyle}" Text="{Binding Datetime}"/>
-                                                
+
                                             </Grid>
 
                                             <Grid  Height="120" Margin="5 5">
