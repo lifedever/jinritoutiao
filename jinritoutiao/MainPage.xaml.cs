@@ -74,7 +74,7 @@ namespace jinritoutiao
             ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
             if (!settings.Values.ContainsKey("popuped") || !(bool)settings.Values["popuped"]) 
             {
-                PopupWebView.Navigate(new Uri("https://github.com/gefangshuai/jinritoutiao/blob/master/README.md", UriKind.Absolute));
+                PopupWebView.Navigate(new Uri("https://raw.githubusercontent.com/gefangshuai/jinritoutiao/master/jinritoutiao/info.html", UriKind.Absolute));
                 PopupGrid.Width = Window.Current.Bounds.Width;
                 PopupGrid.Height = Window.Current.Bounds.Height;
                 popup.IsOpen = true;
