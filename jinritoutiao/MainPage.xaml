@@ -229,9 +229,39 @@
                 </ListView.Footer>
             </ListView>
         </Grid>
+        
+        <Grid Grid.Row="0" Grid.RowSpan="2">
+            <Popup Name="popup" IsOpen="False" VerticalOffset="0" HorizontalOffset="0" IsLightDismissEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Popup.Child>
+                    <Grid RequestedTheme="Light" Background="White" Name="PopupGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="20">
+                            <TextBlock Margin="0 10 0 0" Style="{StaticResource ListViewItemTextBlockStyle}">重要说明:</TextBlock>
+                            <WebView Name="PopupWebView" Height="400">
+                                
+                            </WebView>
+                            <CheckBox IsChecked="True" Name="PopupCheckBox" Margin="0 20 0 0">不再显示</CheckBox>
+                        </StackPanel>
+                        <Button Grid.Row="1" Margin="20" Name="ClosePopupButton" Click="ClosePopupButton_OnClick" HorizontalAlignment="Stretch">关闭</Button>
+                    </Grid>
+                </Popup.Child>
+                <!--为弹出框增加 PopupThemeTransition 效果-->
+                <Popup.ChildTransitions>
+                    <TransitionCollection>
+                        <PopupThemeTransition />
+                    </TransitionCollection>
+                </Popup.ChildTransitions>
+            </Popup>
+        </Grid>
     </Grid>
+    
+    
+    
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Compact">
+        <CommandBar ClosedDisplayMode="Compact" Name="CommandBar">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="我的收藏" Icon="Favorite" Click="FavoriteAppBarButton_Click"/>
             </CommandBar.PrimaryCommands>
@@ -241,4 +271,8 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
+
+
+    
+
 </Page>

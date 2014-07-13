@@ -18,7 +18,8 @@
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ListViewEmptyStaticTextBlockStyle}" Foreground="{ThemeResource AppBarBackgroundThemeBrush}">设置</TextBlock>
         </Grid>
         <StackPanel Grid.Row="1" Margin="10">
-            <ToggleSwitch Header="是否显示新闻摘要" Name="AbstracToggleSwitch" Toggled="AbstracToggleSwitch_OnToggled"></ToggleSwitch>
+            <ToggleSwitch Header="显示新闻摘要" Name="AbstracToggleSwitch" Toggled="AbstracToggleSwitch_OnToggled"></ToggleSwitch>
+            <ToggleSwitch Header="显示重要说明" Name="PopupToggleSwitch" Toggled="PopupToggleSwitch_OnToggled"></ToggleSwitch>
         </StackPanel>
     </Grid>
 </Page>

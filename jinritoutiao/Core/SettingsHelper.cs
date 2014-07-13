@@ -32,5 +32,12 @@ namespace jinritoutiao.Core
             return false;
         }
 
+
+        public static bool GetPopupState()
+        {
+            if (Settings.Values.ContainsKey("popuped"))
+                return !(bool)Settings.Values["popuped"];
+            return false;
+        }
     }
 }

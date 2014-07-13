@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="jinritoutiao.BlankPage1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:jinritoutiao"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid RequestedTheme="Light">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="20">
+            <TextBlock Style="{StaticResource ListViewItemTextBlockStyle}">重要说明:</TextBlock>
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}" TextWrapping="Wrap">
+                由于官方API的限制（没有开放API）,本应用暂时无法实现网页版“推荐”板块实时刷新功能，
+                故造成“推荐”板块加载下一页数据时出现重复数据的现象，暂时没有找到解决方案，
+                还请大家能够谅解。
+            </TextBlock>
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}" TextWrapping="Wrap">
+                在官方版出来之前，大家先凑合用，大家有好的意见或建议也可以发邮件反馈给我，
+                本人会抽时间不断改进完善功能！(*^__^*) 
+            </TextBlock>
+            
+        </StackPanel>
+        <Button Grid.Row="1" Margin="20" HorizontalAlignment="Stretch">关闭</Button>
+    </Grid>
+</Page>

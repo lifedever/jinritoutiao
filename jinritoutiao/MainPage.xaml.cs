@@ -12,6 +12,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -20,6 +22,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=391641 上有介绍
@@ -60,6 +63,23 @@ namespace jinritoutiao
             InitStatusBar();
             //InitConfig();
             InitHeaderMenu();
+
+            InitPopup();
+            
+        }
+
+        private void InitPopup()
+        {
+
+            ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
+            if (!settings.Values.ContainsKey("popuped") || !(bool)settings.Values["popuped"]) 
+            {
+                PopupWebView.Navigate(new Uri("https://github.com/gefangshuai/jinritoutiao/blob/master/README.md", UriKind.Absolute));
+                PopupGrid.Width = Window.Current.Bounds.Width;
+                PopupGrid.Height = Window.Current.Bounds.Height;
+                popup.IsOpen = true;
+                CommandBar.Visibility = Visibility.Collapsed;
+            }
         }
 
         /// <summary>
@@ -317,10 +337,19 @@ namespace jinritoutiao
             flyoutBase.ShowAt(senderElement);
         }
 
+      
 
         #region utils
 
         
         #endregion
+
+        private void ClosePopupButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
+            settings.Values["popuped"] = PopupCheckBox.IsChecked;
+            popup.IsOpen = false;
+            CommandBar.Visibility = Visibility.Visible;
+        }
     }
 }

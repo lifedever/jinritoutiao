@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -49,6 +50,7 @@ namespace jinritoutiao
         private void InitSettings()
         {
             AbstracToggleSwitch.IsOn = SettingsHelper.GetAbstractState();
+            PopupToggleSwitch.IsOn = SettingsHelper.GetPopupState();
         }
         private void InitStatusBar()
         {
@@ -79,6 +81,12 @@ namespace jinritoutiao
                 _mainPage.DataListView.ItemsSource = null;
                 _mainPage.DataListView.ItemsSource = _mainPage.ReceiveDatas;
             }
+        }
+
+        private void PopupToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
+            settings.Values["popuped"] = !PopupToggleSwitch.IsOn;
         }
     }
 }
