@@ -68,13 +68,24 @@ namespace jinritoutiao
             
         }
 
-        private void InitPopup()
+        private async void InitPopup()
         {
 
             ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
             if (!settings.Values.ContainsKey("popuped") || !(bool)settings.Values["popuped"]) 
             {
-                PopupWebView.Navigate(new Uri("https://raw.githubusercontent.com/gefangshuai/jinritoutiao/master/jinritoutiao/info.html", UriKind.Absolute));
+                HttpWebRequest request = WebRequest.CreateHttp(new Uri("https://raw.githubusercontent.com/gefangshuai/jinritoutiao/master/jinritoutiao/info.html", UriKind.Absolute));
+                request.Method = "GET";
+                WebResponse response = await request.GetResponseAsync();
+                string cont = "";
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(responseStream))
+                    {
+                        cont = reader.ReadToEnd();
+                    }
+                }
+                PopupWebView.NavigateToString(cont);
                 PopupGrid.Width = Window.Current.Bounds.Width;
                 PopupGrid.Height = Window.Current.Bounds.Height;
                 popup.IsOpen = true;
