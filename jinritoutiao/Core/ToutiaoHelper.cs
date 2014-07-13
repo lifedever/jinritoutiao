@@ -21,9 +21,8 @@ namespace jinritoutiao.Core
     /// </summary>
     public sealed class ToutiaoHelper
     {
-        private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&utm_source=toutiao";
+        private static string _articleUrl = "http://toutiao.com/api/article/recent/?category={0}&count=20&offset=0&utm_source=toutiao";
         public const string FILE_NAME = "favorite";
-        private static DispatcherTimer _dispatcherTimer;
         /// <summary>
         /// 获取文章url
         /// </summary>
@@ -47,6 +46,18 @@ namespace jinritoutiao.Core
             return string.Format(url, category);
         }
 
+        /// <summary>
+        /// 获取推荐的url
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="maxBehotTime"></param>
+        /// <returns></returns>
+        public static string GetRecommendUrl(string category, double maxBehotTime)
+        {
+            string url = _articleUrl;
+            url += "&max_behot_time=" + maxBehotTime;
+            return string.Format(url, category);
+        }
         /// <summary>
         /// 获取顶部菜单
         /// </summary>
@@ -74,19 +85,15 @@ namespace jinritoutiao.Core
             };
         }
 
-        public static void ShowMessage(String message, TextBlock messageTextBlock, Flyout flyout, UserControl control)
+        public async static void ShowMessage(String message, TextBlock messageTextBlock, Flyout flyout, UserControl control)
         {
-            if (_dispatcherTimer == null)
-                _dispatcherTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 2) };
-            _dispatcherTimer.Tick += (sender1, o1) =>
-            {
-                flyout.Hide();
-                _dispatcherTimer.Stop();
-            };
-
+           
             messageTextBlock.Text = message;
             flyout.ShowAt(control);
-            flyout.Opened += (sender, o) => _dispatcherTimer.Start();
+            await Task.Delay(2000);
+            flyout.Hide();
         }
+
+       
     }
 }

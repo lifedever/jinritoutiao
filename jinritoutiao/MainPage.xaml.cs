@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
@@ -36,7 +37,9 @@ namespace jinritoutiao
         private readonly NavigationHelper _navigationHelper;
         private ListBox _headMenuListBox;
         private HeaderMenu _headerMenu;
-        
+        private double _maxBehotTime;
+        private DispatcherTimer dispatcherTimer;
+
 
         public HtmlParseHelper HtmlParseHelper { get; set; }
 
@@ -55,9 +58,8 @@ namespace jinritoutiao
             DataListView.DataContext = this;
             
             InitStatusBar();
+            //InitConfig();
             InitHeaderMenu();
-            InitConfig();
-
         }
 
         /// <summary>
@@ -65,7 +67,33 @@ namespace jinritoutiao
         /// </summary>
         private async void InitConfig()
         {
-            
+            HttpWebRequest request = WebRequest.CreateHttp(new Uri("http://toutiao.com/", UriKind.Absolute));
+            request.Method = "GET";
+            WebResponse response = await request.GetResponseAsync();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    for (int i = 0; i < 300; i++)
+                    {
+                        string str = reader.ReadLine();
+
+                        if (str.Contains("var max_behot_time"))
+                        {
+                            _maxBehotTime = double.Parse(str.Split('\"')[1]);
+                            break;
+                        }
+                    }
+                }
+            }
+            _headMenuListBox.SelectedIndex = 0;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = new TimeSpan(100);
+            dispatcherTimer.Tick += (sender, o) =>
+            {
+                _maxBehotTime += 0.01;
+            };
+            dispatcherTimer.Start();
         }
 
         #region 初始化信息
@@ -77,7 +105,6 @@ namespace jinritoutiao
             _headMenuListBox = MyHeaderControl.MenuListBox;
             _headMenuListBox.SelectionChanged += HeadMenuListBox_SelectionChanged;
             _headMenuListBox.SelectedIndex = 0;
-
             MyHeaderControl.LoadStoryboard.Begin();
         }
 
@@ -86,10 +113,7 @@ namespace jinritoutiao
             _headerMenu = _headMenuListBox.SelectedItem as HeaderMenu;
             if (_headerMenu != null)
             {
-                ReceiveDatas.Clear();
-                Next.MinBehotTime = null;
-                Next.MaxBehotTime = null;
-                ReloadData();
+                ReceiveListData();
             }
         }
 
@@ -106,19 +130,30 @@ namespace jinritoutiao
 
                 if (ReceiveDatas.Count>0)
                 {
-                    maxCreateTime = ReceiveDatas.LastOrDefault().CreateTime;
+                    maxCreateTime = ReceiveDatas.FirstOrDefault().CreateTime;
                 }
 
-
-
                 string url = ToutiaoHelper.GetArticleUrl(_headerMenu.Name, Next.MaxBehotTime, Next.MinBehotTime, maxCreateTime);
-                Debug.WriteLine(url);
+
                 HtmlParseHelper.HttpGet(url);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
+        }
+
+        /// <summary>
+        /// 获取推荐的数据
+        /// </summary>
+        private void GetRecommend()
+        {
+            ReceiveDatas.Clear();
+
+            string url = "http://toutiao.com/api/article/recent/?category=__all__&count=20&utm_source=toutiao&max_behot_time=1405239965.73";
+
+            HtmlParseHelper = new HtmlParseHelper(ReceiveDatas, Next, FooterGrid, ProgressBar);
+            HtmlParseHelper.HttpGet(url);
         }
 
         /// <summary>
@@ -209,19 +244,30 @@ namespace jinritoutiao
             ReloadData();
         }
 
-        private async void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             MyHeaderControl.RefreshImage.Tapped += RefreshImage_Tapped;
-
-           
         }
 
         void RefreshImage_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ReceiveDatas.Clear();
-            Next.MinBehotTime = null;
-            Next.MaxBehotTime = null;
-            ReloadData();
+            ReceiveListData();
+        }
+
+        private void ReceiveListData()
+        {
+            //MyHeaderControl.RefreshImageStoryboard.Begin();
+            //if (_headMenuListBox.SelectedIndex == 0)
+            //{
+            //    GetRecommend();
+            //}
+            //else
+            //{
+                ReceiveDatas.Clear();
+                Next.MinBehotTime = null;
+                Next.MaxBehotTime = null;
+                ReloadData();
+            //}
         }
 
         private void FavoriteAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -263,9 +309,6 @@ namespace jinritoutiao
             var item  = ReceiveDatas.FirstOrDefault(n => n.Id == id);
             SaveFavorite(item);
         }
-
-
-
 
         private void UIElement_OnHolding(object sender, HoldingRoutedEventArgs e)
         {

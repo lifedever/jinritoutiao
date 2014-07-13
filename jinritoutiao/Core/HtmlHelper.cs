@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Core;
@@ -21,6 +22,7 @@ namespace jinritoutiao.Core
         {
             try
             {
+                Debug.WriteLine(url);
                 _simpleDispatcher = Window.Current.Dispatcher;
                 //创建WebRequest类
                 var request = WebRequest.CreateHttp(new Uri(url));
@@ -44,14 +46,6 @@ namespace jinritoutiao.Core
                 HttpWebRequest request = (HttpWebRequest)result.AsyncState;
                 //结束对 Internet 资源的异步请求
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
-                //解析应答头
-                //parseRecvHeader(response.Headers);
-                //获取请求体信息长度
-                long contentLength = response.ContentLength;
-
-                //获取应答码
-                int statusCode = (int)response.StatusCode;
-                string statusText = response.StatusDescription;
 
                 //应答头信息验证
                 using (Stream stream = response.GetResponseStream())
