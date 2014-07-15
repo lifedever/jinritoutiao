@@ -19,7 +19,7 @@ namespace jinritoutiao.Core
             Settings.Values["abstract"] = flag;
         }
 
-       
+
 
         /// <summary>
         /// 获得摘要状态
@@ -28,7 +28,7 @@ namespace jinritoutiao.Core
         public static bool GetAbstractState()
         {
             if (Settings.Values.ContainsKey("abstract"))
-                return (bool) Settings.Values["abstract"];
+                return (bool)Settings.Values["abstract"];
             return false;
         }
 
@@ -37,6 +37,22 @@ namespace jinritoutiao.Core
         {
             if (Settings.Values.ContainsKey("popuped"))
                 return !(bool)Settings.Values["popuped"];
+            return false;
+        }
+
+        internal static bool ExistDate(string date)
+        {
+            if (Settings.Values.ContainsKey("pushdate"))
+            {
+                string dates = (string)Settings.Values["pushdate"];
+                if (dates.Contains(date))
+                    return true;
+                Settings.Values["pushdate"] = dates + date + ",";
+            }
+            else
+            {
+                Settings.Values["pushdate"] = date + ",";
+            }
             return false;
         }
     }

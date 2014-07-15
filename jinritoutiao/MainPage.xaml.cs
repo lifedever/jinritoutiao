@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -42,7 +44,7 @@ namespace jinritoutiao
         private HeaderMenu _headerMenu;
         private double _maxBehotTime;
         private DispatcherTimer dispatcherTimer;
-
+        private string pushUrl = "http://git.oschina.net/gefangshuai/pushdata/raw/master/jinritoutiao/info.html";
 
         public HtmlParseHelper HtmlParseHelper { get; set; }
 
@@ -68,29 +70,48 @@ namespace jinritoutiao
             
         }
 
+        /// <summary>
+        /// 初始化弹出消息
+        /// </summary>
         private async void InitPopup()
         {
 
             ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
-            if (!settings.Values.ContainsKey("popuped") || !(bool)settings.Values["popuped"]) 
+
+            string pushData = await GetPushData();
+            string date = pushData.Substring(pushData.IndexOf("--db") + 4, 8);
+
+
+            if (!SettingsHelper.ExistDate(date) || !settings.Values.ContainsKey("popuped") || !(bool)settings.Values["popuped"])
             {
-                HttpWebRequest request = WebRequest.CreateHttp(new Uri("https://raw.githubusercontent.com/gefangshuai/jinritoutiao/master/jinritoutiao/info.html", UriKind.Absolute));
-                request.Method = "GET";
-                WebResponse response = await request.GetResponseAsync();
-                string cont = "";
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    using (StreamReader reader = new StreamReader(responseStream))
-                    {
-                        cont = reader.ReadToEnd();
-                    }
-                }
-                PopupWebView.NavigateToString(cont);
-                PopupGrid.Width = Window.Current.Bounds.Width;
-                PopupGrid.Height = Window.Current.Bounds.Height;
-                popup.IsOpen = true;
-                CommandBar.Visibility = Visibility.Collapsed;
+                ShowPopup(pushData);
             }
+        }
+
+        private void ShowPopup(string pushData)
+        {
+
+            PopupWebView.NavigateToString(pushData);
+            PopupGrid.Width = Window.Current.Bounds.Width;
+            PopupGrid.Height = Window.Current.Bounds.Height;
+            popup.IsOpen = true;
+            CommandBar.Visibility = Visibility.Collapsed;
+        }
+
+        private async Task<string> GetPushData()
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(new Uri(pushUrl, UriKind.Absolute));
+            request.Method = "GET";
+            WebResponse response = await request.GetResponseAsync();
+            string cont = "";
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    cont = reader.ReadToEnd();
+                }
+            }
+            return cont;
         }
 
         /// <summary>
