@@ -228,6 +228,8 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+        <Grid Row="0" RowSpan="2" Name="YejianGrid" Background="Black" Opacity="0" IsHitTestVisible="False"></Grid>
+
     </Grid>
     
 </Page>

@@ -24,22 +24,19 @@
         </Flyout>
     </FlyoutBase.AttachedFlyout>
     <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <WebView Grid.Row="1" Name="ItemWebView" Margin="2"
+        <WebView Name="ItemWebView" Margin="2"
+                 IsHitTestVisible="True"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
-                 NavigationStarting="ItemWebView_OnNavigationStarting"></WebView>
-        <ProgressRing Grid.Row="1" Grid.Column="0" Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
-        <Grid Grid.Row="2" Name="AdGrid">
-        </Grid>
+                 NavigationStarting="ItemWebView_OnNavigationStarting" >
+            <WebView.RenderTransform>
+                <TranslateTransform x:Name="WebviewTranslateTransform"></TranslateTransform>
+            </WebView.RenderTransform>   
+        </WebView>
+        <Grid ManipulationMode="All" ManipulationDelta="YejianGrid_OnManipulationDelta" Row="0" Name="YejianGrid" Background="Black" Opacity="0"></Grid>
+        <ProgressRing Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Name="CommandBar">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Back" Label="后退" Name="BackAppBarButton" Click="BackAppBarButton_OnClick"/>
                 <AppBarButton Icon="Refresh" Label="刷新" Name="RefreshAppBarButton" Click="RefreshAppBarButton_OnClick"/>

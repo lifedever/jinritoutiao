@@ -71,6 +71,17 @@ namespace jinritoutiao
             this._navigationHelper.OnNavigatedTo(e);
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             InitConfig();
+
+            var state = SettingsHelper.GetYejianState();
+            if (state)
+            {
+                ChangeToYejian();
+            }
+            else
+            {
+                ChangeToBaitian();
+            }
+
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -101,7 +112,16 @@ namespace jinritoutiao
         }
 
 
-        
+        private void ChangeToYejian()
+        {
+            YejianGrid.Opacity = 0.75;
+
+        }
+
+        private void ChangeToBaitian()
+        {
+            YejianGrid.Opacity = 0;
+        }
         private void UIElement_OnHolding(object sender, HoldingRoutedEventArgs e)
         {
             FrameworkElement senderElement = sender as FrameworkElement;

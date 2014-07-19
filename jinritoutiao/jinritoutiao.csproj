@@ -136,6 +136,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\yejian-2.png" />
+    <Content Include="Assets\yejian.png" />
     <Content Include="Assets\images\favorite.png" />
     <Content Include="Assets\images\refresh.png" />
     <Content Include="Assets\images\search_icon.png" />

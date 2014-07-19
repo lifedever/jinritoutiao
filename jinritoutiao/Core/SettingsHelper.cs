@@ -40,6 +40,18 @@ namespace jinritoutiao.Core
             return false;
         }
 
+        public static bool GetYejianState()
+        {
+            if (Settings.Values.ContainsKey("yejian"))
+                return (bool)Settings.Values["yejian"];
+            return false;
+        }
+
+        public static void ChangeToYejian(bool flag)
+        {
+            Settings.Values["yejian"] = flag;
+        }
+
         internal static bool ExistDate(string date)
         {
             if (Settings.Values.ContainsKey("pushdate"))

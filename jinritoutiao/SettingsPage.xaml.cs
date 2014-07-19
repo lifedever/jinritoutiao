@@ -51,6 +51,7 @@ namespace jinritoutiao
         {
             AbstracToggleSwitch.IsOn = SettingsHelper.GetAbstractState();
             PopupToggleSwitch.IsOn = SettingsHelper.GetPopupState();
+            YejianToggleSwitch.IsOn = SettingsHelper.GetYejianState();
         }
         private void InitStatusBar()
         {
@@ -64,10 +65,23 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this._navigationHelper.OnNavigatedTo(e);
+            
+
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             _mainPage = e.Parameter as MainPage;
         }
+
+        private void ChangeToYejian()
+        {
+            YejianGrid.Opacity = 0.75;
+
+        }
+
+        private void ChangeToBaitian()
+        {
+            YejianGrid.Opacity = 0;
+        }
+
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             e.Handled = true;
@@ -87,6 +101,20 @@ namespace jinritoutiao
         {
             ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
             settings.Values["popuped"] = !PopupToggleSwitch.IsOn;
+        }
+
+        private void YejianToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
+            settings.Values["yejian"] = YejianToggleSwitch.IsOn;
+            if (YejianToggleSwitch.IsOn)
+            {
+                ChangeToYejian();
+            }
+            else
+            {
+                ChangeToBaitian();
+            }
         }
     }
 }

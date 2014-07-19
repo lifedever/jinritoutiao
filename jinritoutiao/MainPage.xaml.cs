@@ -67,7 +67,6 @@ namespace jinritoutiao
             InitHeaderMenu();
 
             InitPopup();
-            
         }
 
         /// <summary>
@@ -117,35 +116,18 @@ namespace jinritoutiao
         /// <summary>
         /// 初始化配置信息
         /// </summary>
-        private async void InitConfig()
+        private void InitConfig()
         {
-            HttpWebRequest request = WebRequest.CreateHttp(new Uri("http://toutiao.com/", UriKind.Absolute));
-            request.Method = "GET";
-            WebResponse response = await request.GetResponseAsync();
-            using (Stream responseStream = response.GetResponseStream())
+            bool state = SettingsHelper.GetYejianState();
+            if (state)
             {
-                using (StreamReader reader = new StreamReader(responseStream))
-                {
-                    for (int i = 0; i < 300; i++)
-                    {
-                        string str = reader.ReadLine();
-
-                        if (str.Contains("var max_behot_time"))
-                        {
-                            _maxBehotTime = double.Parse(str.Split('\"')[1]);
-                            break;
-                        }
-                    }
-                }
+                ChangeToYejian();                
             }
-            _headMenuListBox.SelectedIndex = 0;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(100);
-            dispatcherTimer.Tick += (sender, o) =>
+            else
             {
-                _maxBehotTime += 0.01;
-            };
-            dispatcherTimer.Start();
+                ChangeToBaitian();
+            }
+            YejianAppBarButton.IsChecked = state;
         }
 
         #region 初始化信息
@@ -243,6 +225,7 @@ namespace jinritoutiao
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedTo(e);
+            InitConfig();
 
             DataListView.SelectedItem = null;
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
@@ -373,7 +356,20 @@ namespace jinritoutiao
 
         #region utils
 
-        
+        private void ChangeToYejian()
+        {
+            YejianGrid.Opacity = 0.75;
+            CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+            CommandBar.RequestedTheme = ElementTheme.Dark;
+        }
+
+        private void ChangeToBaitian()
+        {
+            YejianGrid.Opacity = 0;
+            CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Compact;
+            CommandBar.RequestedTheme = ElementTheme.Light;
+        }
+
         #endregion
 
         private void ClosePopupButton_OnClick(object sender, RoutedEventArgs e)
@@ -382,6 +378,19 @@ namespace jinritoutiao
             settings.Values["popuped"] = PopupCheckBox.IsChecked;
             popup.IsOpen = false;
             CommandBar.Visibility = Visibility.Visible;
+        }
+
+        private void YejianAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (YejianAppBarButton.IsChecked == true)
+            {
+                ChangeToYejian();
+            }
+            else
+            {
+                ChangeToBaitian();
+            }
+            SettingsHelper.ChangeToYejian(YejianAppBarButton.IsChecked == true);
         }
     }
 }

@@ -50,8 +50,16 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
 
+            var state = SettingsHelper.GetYejianState();
+            if (state)
+            {
+                ChangeToYejian();
+            }
+            else
+            {
+                ChangeToBaitian();
+            }
 
             _receiveData = (ReceiveData)e.Parameter;
             if (_receiveData != null)
@@ -73,6 +81,7 @@ namespace jinritoutiao
             
             FavoriteAppBarButton.IsChecked = ExistItem();
             FavoriteAppBarButton.Label = FavoriteAppBarButton.IsChecked == true ? "已收藏" : "收藏";
+
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -134,6 +143,20 @@ namespace jinritoutiao
             await LocalFileHelper.Save(ToutiaoHelper.FILE_NAME, App.FavoriteDatas);
         }
 
+        private void ChangeToYejian()
+        {
+            YejianGrid.Opacity = 0.75;
+            CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+            CommandBar.RequestedTheme = ElementTheme.Dark; ;
+        }
+
+        private void ChangeToBaitian()
+        {
+            YejianGrid.Opacity = 0;
+            CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Compact;
+            CommandBar.RequestedTheme = ElementTheme.Light;;
+        }
+
         private void FavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (FavoriteAppBarButton.IsChecked == true)
@@ -152,6 +175,10 @@ namespace jinritoutiao
         private void MyFavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(FavoritePage));
+        }
+
+        private void YejianGrid_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
         }
     }
 }
