@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.System;
+using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -65,7 +68,20 @@ namespace jinritoutiao
             if (_receiveData != null)
             {
                 //UrlTextBlock.Text = _receiveData.SourceUrl;
-                ItemWebView.Navigate(new Uri(_receiveData.SourceUrl, UriKind.Absolute));
+                HttpClient client = new HttpClient();
+                Uri uri = new Uri(string.Format("http://h2w.iask.cn/h2wdisplay.php?u={0}&psize=4000", _receiveData.SourceUrl), UriKind.Absolute);
+                string content = await client.GetStringAsync(uri);
+                if (SettingsHelper.GetYejianState())
+                {
+                    content = content.Replace("eef4fa", "404040");
+                    ItemWebView.DefaultBackgroundColor = Colors.DimGray;
+                }
+                content = content.Replace("href=\"/h2wdisplay.php?", "href=\"http://h2w.iask.cn/h2wdisplay.php?");
+                if (content.Contains("<div class=\"footer\">"))
+                    content = content.Substring(0, content.IndexOf("<div class=\"footer\">"));
+                //Debug.WriteLine(content);
+                ItemWebView.NavigateToString(content);
+                //ItemWebView.Navigate(uri);
             }
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
@@ -96,6 +112,7 @@ namespace jinritoutiao
         private void ItemWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             ProgressRing.IsActive = true;
+
         }
 
         private void ItemWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
@@ -118,10 +135,7 @@ namespace jinritoutiao
 
         private void ForwardAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ItemWebView.CanGoForward)
-            {
-                ItemWebView.GoForward();
-            }
+            Launcher.LaunchUriAsync(new Uri(_receiveData.SourceUrl, UriKind.Absolute));
         }
 
         private bool ExistItem()
@@ -145,14 +159,14 @@ namespace jinritoutiao
 
         private void ChangeToYejian()
         {
-            YejianGrid.Opacity = 0.75;
+            this.RequestedTheme = ElementTheme.Dark;
             CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
             CommandBar.RequestedTheme = ElementTheme.Dark; ;
         }
 
         private void ChangeToBaitian()
         {
-            YejianGrid.Opacity = 0;
+            this.RequestedTheme = ElementTheme.Light;
             CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Compact;
             CommandBar.RequestedTheme = ElementTheme.Light;;
         }
@@ -177,8 +191,9 @@ namespace jinritoutiao
             Frame.Navigate(typeof(FavoritePage));
         }
 
-        private void YejianGrid_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void ItemWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)
         {
+            
         }
     }
 }

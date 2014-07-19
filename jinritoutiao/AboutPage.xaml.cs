@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkID=390556 上有介绍
 using jinritoutiao.Common;
+using jinritoutiao.Core;
 
 namespace jinritoutiao
 {
@@ -60,6 +61,16 @@ namespace jinritoutiao
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedTo(e);
+
+            if (SettingsHelper.GetYejianState())
+            {
+                ChangeToYejian();
+            }
+            else
+            {
+                ChangeToBaitian();
+            }
+
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
@@ -88,7 +99,16 @@ namespace jinritoutiao
             var uriMailTo = "mailto:gefangshuai@163.com?subject=关于《今日头条》的反馈";
             Launcher.LaunchUriAsync(new Uri(uriMailTo, UriKind.Absolute));
         }
+        private void ChangeToYejian()
+        {
+            YejianGrid.Opacity = 0.75;
 
+        }
+
+        private void ChangeToBaitian()
+        {
+            YejianGrid.Opacity = 0;
+        }
         private void DonateButton_OnClick(object sender, RoutedEventArgs e)
         {
             Launcher.LaunchUriAsync(new Uri("http://wincn.net/donate/", UriKind.Absolute));

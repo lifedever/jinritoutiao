@@ -48,5 +48,8 @@
             <Button HorizontalAlignment="Stretch" Name="RateButton" Click="RateButton_OnClick">给我好评</Button>
             <Button HorizontalAlignment="Stretch" Name="FeedbackButton" Click="FeedbackButton_OnClick">给我反馈</Button>
         </StackPanel>
+
+        <Grid Row="0" RowSpan="3" Name="YejianGrid" Background="Black" Opacity="0" IsHitTestVisible="False"></Grid>
+
     </Grid>
 </Page>
