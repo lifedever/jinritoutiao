@@ -80,6 +80,8 @@ namespace jinritoutiao
                 if (content.Contains("<div class=\"footer\">"))
                     content = content.Substring(0, content.IndexOf("<div class=\"footer\">"));
                 //Debug.WriteLine(content);
+                //string share = "<div class=\"bshare-custom\"><a title=\"分享到新浪微博\" class=\"bshare-sinaminiblog\"></a><a title=\"分享到腾讯微博\" class=\"bshare-qqmb\"></a><a title=\"分享到微信\" class=\"bshare-weixin\"></a><a title=\"更多平台\" class=\"bshare-more bshare-more-icon more-style-sharethis\"></a><span class=\"BSHARE_COUNT bshare-share-count\">0</span></div><script type=\"text/javascript\" charset=\"utf-8\" src=\"http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh\"></script><script type=\"text/javascript\" charset=\"utf-8\" src=\"http://static.bshare.cn/b/bshareC0.js\"></script>";
+                Debug.WriteLine(content);
                 ItemWebView.NavigateToString(content);
                 //ItemWebView.Navigate(uri);
             }

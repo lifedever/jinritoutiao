@@ -1,3 +1,3 @@
-MainPackage=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.4_Bundle\jinritoutiao_1.1.0.4_AnyCPU.appx
-ResourcePack=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.4_Bundle\jinritoutiao_1.1.0.4_scale-100.appx
-ResourcePack=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.4_Bundle\jinritoutiao_1.1.0.4_scale-140.appx
+MainPackage=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.6_Bundle\jinritoutiao_1.1.0.6_AnyCPU.appx
+ResourcePack=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.6_Bundle\jinritoutiao_1.1.0.6_scale-100.appx
+ResourcePack=F:\Documents\Visual Studio 2013\Projects\product\今日头条\jinritoutiao\bin\Release\jinritoutiao_1.1.0.6_Bundle\jinritoutiao_1.1.0.6_scale-140.appx

@@ -33,8 +33,6 @@
     <Page.BottomAppBar>
         <CommandBar Name="CommandBar">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Back" Label="后退" Name="BackAppBarButton" Click="BackAppBarButton_OnClick"/>
-                <AppBarButton Icon="Refresh" Label="刷新" Name="RefreshAppBarButton" Click="RefreshAppBarButton_OnClick"/>
                 <AppBarButton Icon="World" Label="用IE打开" Name="ForwardAppBarButton" Click="ForwardAppBarButton_OnClick"/>
                 <AppBarToggleButton Label="收藏" Name="FavoriteAppBarButton" Click="FavoriteAppBarButton_OnClick" Icon="Favorite"/>
             </CommandBar.PrimaryCommands>
