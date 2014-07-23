@@ -61,6 +61,23 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (SettingsHelper.GetYejianState() && !SettingsHelper.GetZhuanmaState()&&SettingsHelper.GetNewsTipState())
+            {
+                MessageDialog msgDialog = new MessageDialog("系统检测到您启用了夜间模式，" +
+                                                          "但并未启用“优化新闻查看页面”功能，" +
+                                                          "这样会导致夜间模式失效，" +
+                                                          "强烈建议您开启此功能！\n是否关闭此提示？", "注意：");
+                //OK Button
+                UICommand okBtn = new UICommand("关闭");
+                okBtn.Invoked = command => SettingsHelper.ChangeToNewsTip(false);
+                msgDialog.Commands.Add(okBtn);
+
+                //Cancel Button
+                UICommand cancelBtn = new UICommand("不关闭");
+                cancelBtn.Invoked = command => { };
+                msgDialog.Commands.Add(cancelBtn);
+                msgDialog.ShowAsync();
+            }
 
             this._navigationHelper.OnNavigatedTo(e);
             var state = SettingsHelper.GetYejianState();
@@ -76,23 +93,14 @@ namespace jinritoutiao
             _receiveData = (ReceiveData)e.Parameter;
             if (_receiveData != null)
             {
-                //UrlTextBlock.Text = _receiveData.SourceUrl;
-                HttpClient client = new HttpClient();
-                Uri uri = new Uri(string.Format("http://h2w.iask.cn/h2wdisplay.php?u={0}&psize=4000", _receiveData.SourceUrl), UriKind.Absolute);
-                string content = await client.GetStringAsync(uri);
-                if (SettingsHelper.GetYejianState())
+                if (SettingsHelper.GetZhuanmaState())
                 {
-                    content = content.Replace("eef4fa", "404040");
-                    ItemWebView.DefaultBackgroundColor = Colors.DimGray;
+                    ViewWithZhuanma();
                 }
-                content = content.Replace("href=\"/h2wdisplay.php?", "href=\"http://h2w.iask.cn/h2wdisplay.php?");
-                if (content.Contains("<div class=\"footer\">"))
-                    content = content.Substring(0, content.IndexOf("<div class=\"footer\">"));
-                //Debug.WriteLine(content);
-                //string share = "<div class=\"bshare-custom\"><a title=\"分享到新浪微博\" class=\"bshare-sinaminiblog\"></a><a title=\"分享到腾讯微博\" class=\"bshare-qqmb\"></a><a title=\"分享到微信\" class=\"bshare-weixin\"></a><a title=\"更多平台\" class=\"bshare-more bshare-more-icon more-style-sharethis\"></a><span class=\"BSHARE_COUNT bshare-share-count\">0</span></div><script type=\"text/javascript\" charset=\"utf-8\" src=\"http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh\"></script><script type=\"text/javascript\" charset=\"utf-8\" src=\"http://static.bshare.cn/b/bshareC0.js\"></script>";
-                Debug.WriteLine(content);
-                ItemWebView.NavigateToString(content);
-                //ItemWebView.Navigate(uri);
+                else
+                {
+                    ViewWithoutZhuanma();
+                }
             }
 
             List<ReceiveData> receiveDatas = await LocalFileHelper.Read<List<ReceiveData>>(ToutiaoHelper.FILE_NAME);
@@ -110,6 +118,28 @@ namespace jinritoutiao
 
         }
 
+        private void ViewWithoutZhuanma()
+        {
+            ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+        }
+
+        private async void ViewWithZhuanma()
+        {
+            HttpClient client = new HttpClient();
+            Uri uri = new Uri(string.Format("http://h2w.iask.cn/h2wdisplay.php?u={0}&psize=4000", _receiveData.SourceUrl), UriKind.Absolute);
+            string content = await client.GetStringAsync(uri);
+            if (SettingsHelper.GetYejianState())
+            {
+                content = content.Replace("eef4fa", "404040");
+                ItemWebView.DefaultBackgroundColor = Colors.DimGray;
+            }
+            content = content.Replace("href=\"/h2wdisplay.php?", "href=\"http://h2w.iask.cn/h2wdisplay.php?");
+            if (content.Contains("<div class=\"footer\">"))
+                content = content.Substring(0, content.IndexOf("<div class=\"footer\">"));
+            Debug.WriteLine(content);
+            ItemWebView.NavigateToString(content);
+        }
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedFrom(e);
@@ -117,12 +147,19 @@ namespace jinritoutiao
         private void ItemWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             ProgressRing.IsActive = true;
-
         }
 
-        private void ItemWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        private async void ItemWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             ProgressRing.IsActive = false;
+            //await ItemWebView.InvokeScriptAsync("eval", new string[] { GetJs() });
+            //YejianGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private string GetJs()
+        {
+            return "document.body.style.background='#404040'";
+
         }
 
         private void BackAppBarButton_OnClick(object sender, RoutedEventArgs e)
@@ -166,7 +203,7 @@ namespace jinritoutiao
         {
             this.RequestedTheme = ElementTheme.Dark;
             CommandBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
-            CommandBar.RequestedTheme = ElementTheme.Dark; ;
+            CommandBar.RequestedTheme = ElementTheme.Dark;
         }
 
         private void ChangeToBaitian()
@@ -200,5 +237,6 @@ namespace jinritoutiao
         {
             
         }
+
     }
 }

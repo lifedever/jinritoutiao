@@ -23,12 +23,15 @@
             </Flyout.Content>
         </Flyout>
     </FlyoutBase.AttachedFlyout>
+    
     <Grid>
         <WebView Name="ItemWebView" Margin="2"
                  NavigationCompleted="ItemWebView_OnNavigationCompleted"
                  NavigationStarting="ItemWebView_OnNavigationStarting">
         </WebView>
         <ProgressRing Height="100" Background="Transparent" Width="100" Name="ProgressRing"></ProgressRing>
+        <Grid Row="0" IsHoldingEnabled="False" IsTapEnabled="False" IsDoubleTapEnabled="False" IsRightTapEnabled="False" Name="YejianGrid" Background="Black" Opacity="0.75" Visibility="Collapsed" IsHitTestVisible="False"></Grid>
+        
     </Grid>
     <Page.BottomAppBar>
         <CommandBar Name="CommandBar">

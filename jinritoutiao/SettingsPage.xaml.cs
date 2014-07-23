@@ -38,7 +38,6 @@ namespace jinritoutiao
             this._navigationHelper = new NavigationHelper(this);
             _navigationHelper.LoadState += navigationHelper_LoadState;
 
-
             InitStatusBar();
             InitSettings();
         }
@@ -52,6 +51,7 @@ namespace jinritoutiao
             AbstracToggleSwitch.IsOn = SettingsHelper.GetAbstractState();
             PopupToggleSwitch.IsOn = SettingsHelper.GetPopupState();
             YejianToggleSwitch.IsOn = SettingsHelper.GetYejianState();
+            ZhuanmaToggleSwitch.IsOn = SettingsHelper.GetZhuanmaState();
         }
         private void InitStatusBar()
         {
@@ -107,6 +107,11 @@ namespace jinritoutiao
             {
                 ChangeToBaitian();
             }
+        }
+
+        private void ZhuanmaToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            SettingsHelper.ChangeToZuanma(ZhuanmaToggleSwitch.IsOn);
         }
     }
 }

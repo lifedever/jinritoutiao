@@ -19,6 +19,8 @@
         </Grid>
         <StackPanel Grid.Row="1" Margin="10">
             <ToggleSwitch Header="显示新闻摘要" Name="AbstracToggleSwitch" Toggled="AbstracToggleSwitch_OnToggled"></ToggleSwitch>
+            <ToggleSwitch Header="优化新闻查看页面" Name="ZhuanmaToggleSwitch" Toggled="ZhuanmaToggleSwitch_OnToggled"></ToggleSwitch>
+            <TextBlock Margin="0 0 0 5" Foreground="Gray" TextWrapping="Wrap">利用转码技术，更省流量。如果禁用此项，则程序直接加载原网页内容，会导致夜间模式失效，故如果您是在晚上使用本应用，强烈建议您开启此项！</TextBlock>
             <ToggleSwitch Header="显示重要说明" Name="PopupToggleSwitch" Toggled="PopupToggleSwitch_OnToggled"></ToggleSwitch>
             <ToggleSwitch Header="启用夜间模式" Name="YejianToggleSwitch" Toggled="YejianToggleSwitch_OnToggled"></ToggleSwitch>
         </StackPanel>

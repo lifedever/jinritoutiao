@@ -47,11 +47,32 @@ namespace jinritoutiao.Core
             return false;
         }
 
+        public static void ChangeToZuanma(bool flag)
+        {
+            Settings.Values["zhuanma"] = flag;
+        }
+        public static bool GetZhuanmaState()
+        {
+            if (Settings.Values.ContainsKey("zhuanma"))
+                return (bool)Settings.Values["zhuanma"];
+            return false;
+        }
+
+        public static void ChangeToNewsTip(bool flag)
+        {
+            Settings.Values["newstip"] = flag;
+        }
+        public static bool GetNewsTipState()
+        {
+            if (Settings.Values.ContainsKey("newstip"))
+                return (bool)Settings.Values["newstip"];
+            return true;
+        }
+
         public static void ChangeToYejian(bool flag)
         {
             Settings.Values["yejian"] = flag;
         }
-
         internal static bool ExistDate(string date)
         {
             if (Settings.Values.ContainsKey("pushdate"))
