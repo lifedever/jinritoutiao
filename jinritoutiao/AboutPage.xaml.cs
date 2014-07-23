@@ -71,15 +71,6 @@ namespace jinritoutiao
                 ChangeToBaitian();
             }
 
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-        }
-
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            e.Handled = true;
-            if (Frame.CanGoBack)
-                Frame.GoBack();
-
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

@@ -228,7 +228,6 @@ namespace jinritoutiao
             InitConfig();
 
             DataListView.SelectedItem = null;
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
             foreach (ReceiveData receiveData in ReceiveDatas)
             {
@@ -236,18 +235,10 @@ namespace jinritoutiao
             }
 
         }
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            e.Handled = true;
-            if (Frame.CanGoBack)
-                Frame.GoBack();
-            else
-                Application.Current.Exit();
-        }
+       
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedFrom(e);
-            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
         }
 
         #endregion

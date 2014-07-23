@@ -207,6 +207,11 @@ namespace jinritoutiao.Common
                 e.Handled = true;
                 this.GoBackCommand.Execute(null);
             }
+            else
+            {
+                Application.Current.Exit();
+            }
+            
         }
 #else
         /// <summary>

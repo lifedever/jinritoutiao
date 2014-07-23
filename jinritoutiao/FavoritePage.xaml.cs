@@ -69,7 +69,6 @@ namespace jinritoutiao
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedTo(e);
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             InitConfig();
 
             var state = SettingsHelper.GetYejianState();
@@ -84,13 +83,7 @@ namespace jinritoutiao
 
         }
 
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            e.Handled = true;
-            if (Frame.CanGoBack)
-                Frame.GoBack();
-           
-        }
+        
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this._navigationHelper.OnNavigatedFrom(e);

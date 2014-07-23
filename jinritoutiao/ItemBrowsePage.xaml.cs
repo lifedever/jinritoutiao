@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkID=390556 上有介绍
+using jinritoutiao.Common;
 using jinritoutiao.Core;
 using jinritoutiao.Core.Model;
 
@@ -34,10 +35,13 @@ namespace jinritoutiao
     public sealed partial class ItemBrowsePage : Page
     {
         private ReceiveData _receiveData;
+        private readonly NavigationHelper _navigationHelper;
         public ItemBrowsePage()
         {
             this.InitializeComponent();
-            InitStatusBar();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
+            this._navigationHelper = new NavigationHelper(this);
+            _navigationHelper.LoadState += navigationHelper_LoadState; InitStatusBar();
         }
 
         private void InitStatusBar()
@@ -46,6 +50,10 @@ namespace jinritoutiao
             statusBar.HideAsync();
         }
 
+        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        {
+        }
+        
         /// <summary>
         /// 在此页将要在 Frame 中显示时进行调用。
         /// </summary>
@@ -54,6 +62,7 @@ namespace jinritoutiao
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
 
+            this._navigationHelper.OnNavigatedTo(e);
             var state = SettingsHelper.GetYejianState();
             if (state)
             {
@@ -85,7 +94,6 @@ namespace jinritoutiao
                 ItemWebView.NavigateToString(content);
                 //ItemWebView.Navigate(uri);
             }
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
             List<ReceiveData> receiveDatas = await LocalFileHelper.Read<List<ReceiveData>>(ToutiaoHelper.FILE_NAME);
             if (receiveDatas != null && receiveDatas.Count > 0)
@@ -102,15 +110,10 @@ namespace jinritoutiao
 
         }
 
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            e.Handled = true;
-            if (Frame.CanGoBack) 
-            {
-                Frame.GoBack();
-            }
+            this._navigationHelper.OnNavigatedFrom(e);
         }
-
         private void ItemWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             ProgressRing.IsActive = true;

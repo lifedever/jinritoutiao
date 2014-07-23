@@ -65,9 +65,6 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
-
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             _mainPage = e.Parameter as MainPage;
         }
 
@@ -82,12 +79,7 @@ namespace jinritoutiao
             YejianGrid.Opacity = 0;
         }
 
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            e.Handled = true;
-            if (Frame.CanGoBack)
-                Frame.GoBack();
-        }
+       
         private void AbstracToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
         {
             SettingsHelper.ChangeAbstract(AbstracToggleSwitch.IsOn);
