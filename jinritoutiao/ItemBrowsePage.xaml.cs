@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkID=390556 上有介绍
+using HtmlAgilityPack;
 using jinritoutiao.Common;
 using jinritoutiao.Core;
 using jinritoutiao.Core.Model;
@@ -61,6 +62,8 @@ namespace jinritoutiao
         /// 此参数通常用于配置页。</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ProgressRing.IsActive = true;
+
             if (SettingsHelper.GetYejianState() && !SettingsHelper.GetZhuanmaState()&&SettingsHelper.GetNewsTipState())
             {
                 MessageDialog msgDialog = new MessageDialog("系统检测到您启用了夜间模式，" +
@@ -91,6 +94,8 @@ namespace jinritoutiao
             }
 
             _receiveData = (ReceiveData)e.Parameter;
+            Debug.WriteLine(_receiveData.SourceUrl);
+
             if (_receiveData != null)
             {
                 if (SettingsHelper.GetZhuanmaState())
@@ -99,7 +104,7 @@ namespace jinritoutiao
                 }
                 else
                 {
-                    ViewWithoutZhuanma();
+                    await ViewWithoutZhuanma();
                 }
             }
 
@@ -118,9 +123,37 @@ namespace jinritoutiao
 
         }
 
-        private void ViewWithoutZhuanma()
+        private async Task ViewWithoutZhuanma()
         {
-            ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+            string sourceUrl = _receiveData.SourceUrl;
+            if (sourceUrl.StartsWith("http://toutiao.com") || sourceUrl.StartsWith("http://web.toutiao.com"))
+            {
+                HtmlDocument doc = new HtmlDocument();
+                HttpClient client = new HttpClient();
+                string content = await client.GetStringAsync(sourceUrl);
+                doc.LoadHtml(content);
+                var findNode =
+                    doc.DocumentNode.Descendants("div")
+                        .Where(
+                            n =>
+                                n.Attributes.Contains("class") &&
+                                n.Attributes["class"].Value.Contains("article-content"));
+                if (findNode != null && findNode.FirstOrDefault() != null)
+                {
+                    string html = findNode.FirstOrDefault().InnerHtml;
+                    html = string.Format("<div><h2>{0}</h2><div style='font-size:18px;'>{1}</div></div>", _receiveData.Title, html);
+                    ItemWebView.DefaultBackgroundColor = Colors.WhiteSmoke;
+                    ItemWebView.NavigateToString(html);
+                }
+                else
+                {
+                    ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+                }
+            }
+            else
+            {
+                ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+            }
         }
 
         private async void ViewWithZhuanma()
@@ -146,7 +179,7 @@ namespace jinritoutiao
         }
         private void ItemWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            ProgressRing.IsActive = true;
+           
         }
 
         private async void ItemWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
@@ -154,25 +187,6 @@ namespace jinritoutiao
             ProgressRing.IsActive = false;
             //await ItemWebView.InvokeScriptAsync("eval", new string[] { GetJs() });
             //YejianGrid.Visibility = Visibility.Collapsed;
-        }
-
-        private string GetJs()
-        {
-            return "document.body.style.background='#404040'";
-
-        }
-
-        private void BackAppBarButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ItemWebView.CanGoBack)
-            {
-                ItemWebView.GoBack();
-            }
-        }
-
-        private void RefreshAppBarButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            ItemWebView.Refresh();
         }
 
         private void ForwardAppBarButton_OnClick(object sender, RoutedEventArgs e)
@@ -231,11 +245,6 @@ namespace jinritoutiao
         private void MyFavoriteAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(FavoritePage));
-        }
-
-        private void ItemWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)
-        {
-            
         }
 
     }
