@@ -41,7 +41,12 @@
             <TextBlock FontSize="18" TextWrapping="WrapWholeWords" Foreground="{StaticResource AppSolidColorBrush}">
                 gefangshuai@163.com（请输入留言）
             </TextBlock>
-
+            <TextBlock Margin="0 10 0 0" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}">
+                关注我：
+            </TextBlock>
+            <TextBlock FontSize="18" Foreground="{StaticResource AppSolidColorBrush}" >
+                新浪微博：@LifeDever
+            </TextBlock>
         </StackPanel>
         <StackPanel Margin="12" Grid.Row="2" VerticalAlignment="Bottom">
             <Button HorizontalAlignment="Stretch" Name="DonateButton" Click="DonateButton_OnClick">查看捐助列表</Button>

@@ -126,33 +126,40 @@ namespace jinritoutiao
         private async Task ViewWithoutZhuanma()
         {
             string sourceUrl = _receiveData.SourceUrl;
-            if (sourceUrl.StartsWith("http://toutiao.com") || sourceUrl.StartsWith("http://web.toutiao.com"))
+            try
             {
-                HtmlDocument doc = new HtmlDocument();
-                HttpClient client = new HttpClient();
-                string content = await client.GetStringAsync(sourceUrl);
-                doc.LoadHtml(content);
-                var findNode =
-                    doc.DocumentNode.Descendants("div")
-                        .Where(
-                            n =>
-                                n.Attributes.Contains("class") &&
-                                n.Attributes["class"].Value.Contains("article-content"));
-                if (findNode != null && findNode.FirstOrDefault() != null)
+                if (sourceUrl.StartsWith("http://toutiao.com") || sourceUrl.StartsWith("http://web.toutiao.com"))
                 {
-                    string html = findNode.FirstOrDefault().InnerHtml;
-                    html = string.Format("<div><h2>{0}</h2><div style='font-size:18px;'>{1}</div></div>", _receiveData.Title, html);
-                    ItemWebView.DefaultBackgroundColor = Colors.WhiteSmoke;
-                    ItemWebView.NavigateToString(html);
+                    HtmlDocument doc = new HtmlDocument();
+                    HttpClient client = new HttpClient();
+                    string content = await client.GetStringAsync(sourceUrl);
+                    doc.LoadHtml(content);
+                    var findNode =
+                        doc.DocumentNode.Descendants("div")
+                            .Where(
+                                n =>
+                                    n.Attributes.Contains("class") &&
+                                    n.Attributes["class"].Value.Contains("article-content"));
+                    if (findNode != null && findNode.FirstOrDefault() != null)
+                    {
+                        string html = findNode.FirstOrDefault().InnerHtml;
+                        html = string.Format("<div><h2>{0}</h2><div style='font-size:18px;'>{1}</div></div>", _receiveData.Title, html);
+                        ItemWebView.DefaultBackgroundColor = Colors.WhiteSmoke;
+                        ItemWebView.NavigateToString(html);
+                    }
+                    else
+                    {
+                        ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+                    }
                 }
                 else
                 {
                     ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
                 }
             }
-            else
+            catch (Exception e)
             {
-                ItemWebView.Navigate(new Uri(_receiveData.SourceUrl));
+                Debug.WriteLine(e);
             }
         }
 

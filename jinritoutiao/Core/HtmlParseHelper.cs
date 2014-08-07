@@ -115,7 +115,7 @@ namespace jinritoutiao.Core
                                     { 
                                         sourceUrl = itemObject["source_url"].GetString();
                                         if (!sourceUrl.Contains("http://"))
-                                            sourceUrl = string.Format("http://toutiao.com/{0}", sourceUrl);
+                                            sourceUrl = string.Format("http://toutiao.com{0}", sourceUrl);
                                     }
                                     string source = "";
                                     if (itemJson.Contains("source"))

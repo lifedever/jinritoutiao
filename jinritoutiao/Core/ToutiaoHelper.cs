@@ -76,12 +76,12 @@ namespace jinritoutiao.Core
                 new HeaderMenu(){Name = "news_world", Title = "国际"},
                 new HeaderMenu(){Name = "news_sports", Title = "体育"},
                 new HeaderMenu(){Name = "news_car", Title = "汽车"},
-                new HeaderMenu(){Name = "news_travel", Title = "旅游"},
-                new HeaderMenu(){Name = "news_regimen", Title = "养生"},
-                new HeaderMenu(){Name = "news_history", Title = "历史"},
-                new HeaderMenu(){Name = "news_discovery", Title = "探索"},
-                new HeaderMenu(){Name = "news_story", Title = "故事"},
-                new HeaderMenu(){Name = "news_essay", Title = "美文"}
+                new HeaderMenu(){Name = "news_travel", Title = "旅游"}
+                //new HeaderMenu(){Name = "news_regimen", Title = "养生"},
+                //new HeaderMenu(){Name = "news_history", Title = "历史"},
+                //new HeaderMenu(){Name = "news_discovery", Title = "探索"},
+                //new HeaderMenu(){Name = "news_story", Title = "故事"},
+                //new HeaderMenu(){Name = "news_essay", Title = "美文"}
             };
         }
 
